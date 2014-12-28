@@ -24,7 +24,41 @@ buster.testCase("Iterable.toArray", {
   }
 });
 
+buster.testCase("Iterable.concat", {
+  "No arguments": function() {
+    equals(
+      F([1, 2, 3]).concat().toArray(), [1, 2, 3]
+    )
+  },
+
+  "Empty array": function() {
+    equals(
+      F([1, 2, 3]).concat([]).toArray(), [1, 2, 3]
+    )
+  },
+
+  "Single array": function() {
+    equals(
+      F([1, 2, 3]).concat([4, 5]).toArray(), [1, 2, 3, 4, 5]
+    )
+  },
+
+  "Multiple arrays": function() {
+    equals(
+      F([1, 2, 3]).concat([4, 5], [], [], [6, 7, 8], []).toArray(), [1, 2, 3, 4, 5, 6, 7, 8]
+    )
+  }
+});
+
 buster.testCase("Iterable.map", {
+  "Empty array": function() {
+    equals(
+      F([]).map(function(x) {
+        assert(false);
+      }).toArray(), []
+    )
+  },
+
   "Numbers multiplied by 2": function() {
     equals(
       F([1, 2, 3, 4]).map(function(x) {
@@ -43,6 +77,14 @@ buster.testCase("Iterable.map", {
 });
 
 buster.testCase("Iterable.filter", {
+  "Empty array": function() {
+    equals(
+      F([]).filter(function(x) {
+        assert(false);
+      }).toArray(), []
+    )
+  },
+
   "Filter even numbers": function() {
     equals(
       F([1, 2, 3, 4, 5, 6]).filter(function(x) {
@@ -113,6 +155,141 @@ buster.testCase("Iterable.zip", {
   "First array empty": function() {
     equals(
       F([]).zip([1, 2, 3]).toArray(), []
+    )
+  }
+});
+
+buster.testCase("Iterable.partition", {
+  "Empty arrays": function() {
+    equals(
+      F([]).partition(function() {}), [
+        [],
+        []
+      ]
+    )
+  },
+
+  "Strings from numbers": function() {
+    equals(
+      F([1, 2, "Mike", "Colin", 3, "John"]).partition(function(x) {
+        return x.length;
+      }), [
+        ["Mike", "Colin", "John"],
+        [1, 2, 3]
+      ]
+    )
+  },
+
+  "All in first array": function() {
+    equals(
+      F(["Mike", "Colin", "John"]).partition(function(x) {
+        return x.length;
+      }), [
+        ["Mike", "Colin", "John"],
+        []
+      ]
+    )
+  },
+
+  "All in second array": function() {
+    equals(
+      F([1, 2, 3]).partition(function(x) {
+        return x.length;
+      }), [
+        [],
+        [1, 2, 3]
+      ]
+    )
+  }
+});
+
+buster.testCase("Iterable.find", {
+  "Empty arrays": function() {
+    equals(
+      F([]).find(function() {}), undefined
+    )
+  },
+
+  "Multiple valid values": function() {
+    equals(
+      F([1, 3, 2, 5, 6, 4]).find(function(x) {
+        return x % 2 == 0
+      }), 2
+    )
+  },
+
+  "Value not found": function() {
+    equals(
+      F([1, 3, 5]).find(function(x) {
+        return x % 2 == 0
+      }), undefined
+    )
+  }
+});
+
+buster.testCase("Iterable.findIndex", {
+  "Empty arrays": function() {
+    equals(
+      F([]).findIndex(function() {}), -1
+    )
+  },
+
+  "Multiple valid values": function() {
+    equals(
+      F([5, 1, 3, 2, 5, 6, 4]).findIndex(function(x) {
+        return x % 2 == 0
+      }), 3
+    )
+  },
+
+  "Value not found": function() {
+    equals(
+      F([1, 3, 5]).findIndex(function(x) {
+        return x % 2 == 0
+      }), -1)
+  }
+});
+
+buster.testCase("Iterable.drop", {
+  "Empty arrays": function() {
+    equals(
+      F([]).drop(10).toArray(), []
+    )
+  },
+
+  "More values than in array": function() {
+    equals(
+      F([1, 2, 3, 4, 5]).drop(20).toArray(), []
+    )
+  },
+
+  "Drop some values": function() {
+    equals(
+      F([1, 2, 3, 4, 5]).drop(2).toArray(), [3, 4, 5]
+    )
+  }
+});
+
+buster.testCase("Iterable.dropWhile", {
+  "Empty arrays": function() {
+    equals(
+      F([]).dropWhile(function() {}).toArray(), []
+    )
+  },
+
+  "All values match": function() {
+    equals(
+      F([1, 2, 3, 4, 5]).dropWhile(function(x) {
+        return x < 10;
+      }).toArray(), []
+    )
+  },
+
+  "Drop some values": function() {
+    equals(
+      F([1, 2, 3, 4, 5]).dropWhile(function(x) {
+        return x < 3;
+      }).toArray(), [3, 4, 5]
     )
   }
 });
