@@ -2,7 +2,7 @@ var config = module.exports;
 
 config["F tests"] = {
   rootPath: "../",
-  environment: "node",
+  environment: "browser",
   sources: [
     "lib/*.js"
   ],

@@ -1,5 +1,4 @@
-var buster = require("buster"),
-  assert = buster.referee.assert;
+var assert = buster.referee.assert;
 
 function equals(a, b) {
   assert.equals(JSON.stringify(a), JSON.stringify(b));
@@ -9,6 +8,18 @@ buster.testCase("Iterable.toArray", {
   "Numbers multiplied by 2": function() {
     equals(
       F([1, 2, 3, 4]).toArray(), [1, 2, 3, 4]
+    )
+  },
+
+  "Nested iterables": function() {
+    equals(
+      F(F(F(F([1, 2, 3, 4])))).toArray(), [1, 2, 3, 4]
+    )
+  },
+
+  "Empty array": function() {
+    equals(
+      F([]).toArray(), []
     )
   }
 });
@@ -55,6 +66,53 @@ buster.testCase("Iterable.filter", {
       .filter(function(x) {
         return x.length < 2;
       }).toArray(), []
+    )
+  }
+});
+
+buster.testCase("Iterable.zip", {
+  "Zip with empty arrays": function() {
+    equals(
+      F([]).zip([]).toArray(), []
+    )
+  },
+
+  "With combined elements": function() {
+    equals(
+      F(["John", "Mike", "Colin"]).zip([1, 2, 3]).toArray(), [
+        ["John", 1],
+        ["Mike", 2],
+        ["Colin", 3]
+      ]
+    )
+  },
+
+  "First array longer": function() {
+    equals(
+      F(["John", "Mike", "Colin"]).zip([1, 2]).toArray(), [
+        ["John", 1],
+        ["Mike", 2]
+      ]
+    )
+  },
+
+  "Second array longer": function() {
+    equals(
+      F(["John"]).zip([1, 2, 3]).toArray(), [
+        ["John", 1]
+      ]
+    )
+  },
+
+  "Second array empty": function() {
+    equals(
+      F(["John", "Mike", "Colin"]).zip([]).toArray(), []
+    )
+  },
+
+  "First array empty": function() {
+    equals(
+      F([]).zip([1, 2, 3]).toArray(), []
     )
   }
 });
