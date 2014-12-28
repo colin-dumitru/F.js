@@ -5,7 +5,15 @@ function equals(a, b) {
   assert.equals(JSON.stringify(a), JSON.stringify(b));
 }
 
-buster.testCase("Iterable.Map", {
+buster.testCase("Iterable.toArray", {
+  "Numbers multiplied by 2": function() {
+    equals(
+      F([1, 2, 3, 4]).toArray(), [1, 2, 3, 4]
+    )
+  }
+});
+
+buster.testCase("Iterable.map", {
   "Numbers multiplied by 2": function() {
     equals(
       F([1, 2, 3, 4]).map(function(x) {
@@ -23,7 +31,7 @@ buster.testCase("Iterable.Map", {
   }
 });
 
-buster.testCase("Iterable.Filter", {
+buster.testCase("Iterable.filter", {
   "Filter even numbers": function() {
     equals(
       F([1, 2, 3, 4, 5, 6]).filter(function(x) {
@@ -40,4 +48,13 @@ buster.testCase("Iterable.Filter", {
       }).toArray(), ["Colin"]
     )
   },
+
+  "All elements are filtered": function() {
+    equals(
+      F(["John", "Mike", "Colin"])
+      .filter(function(x) {
+        return x.length < 2;
+      }).toArray(), []
+    )
+  }
 });
