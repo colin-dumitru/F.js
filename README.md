@@ -17,7 +17,7 @@ bower install f.js --save-dev
 
 And include the main script file into your project:
 <pre>
-&lt;script src="bower_components/build/F.min.js"&gt;&lt;/script&gt;
+&lt;script src="bower_components/f.js/build/F.min.js"&gt;&lt;/script&gt;
 </pre>
 
 **Manually downloading the zip file**
