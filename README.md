@@ -15,7 +15,7 @@ bower install f.js --save-dev
 
 And include the main script file into your project:
 <pre>
-<script src="bower_components/build/F.min.js"></script>
+&lt;script src="bower_components/build/F.min.js"&gt;&lt;/script&gt;
 </pre>
 
 **Manually downloading the zip file**
@@ -26,7 +26,8 @@ unzip F.js.zip
 
 And include the main script file into your project:
 <pre>
-<script src=F.js-0.1.1/build/F.min.js"></script>
+&lt;script src="F.js-0.1.1/build/F.min.js"&gt;&lt;/script&gt;
 </pre>
 
 ## Documentation
+* [Functional Methods](https://github.com/colin-dumitru/F.js/wiki/Functional)
