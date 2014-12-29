@@ -1,0 +1,8 @@
+language: node_js
+node_js: "0.11"
+before_script:
+  - npm install
+  - grunt
+notifications:
+  irc:
+    - "chat.freenode.net#f.js"

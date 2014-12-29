@@ -8,13 +8,38 @@ module.exports = function(grunt) {
           'build/F.min.js': ['lib/F.js', 'lib/P.js']
         }
       }
+    },
+
+    buster: {
+      main: {
+        test: {
+          config: 'test/buster.js'
+        }
+      }
+    },
+
+    clean: {
+      // Clean any pre-commit hooks in .git/hooks directory
+      hooks: ['.git/hooks/pre-commit']
+    },
+
+    // Run shell commands
+    shell: {
+      hooks: {
+        // Copy the project's pre-commit hook into .git/hooks
+        command: 'cp git-hooks/pre-commit .git/hooks/'
+      }
     }
   });
 
-  // Load the plugin that provides the "uglify" task.
   grunt.loadNpmTasks('grunt-contrib-uglify');
+  grunt.loadNpmTasks('grunt-buster');
+  grunt.loadNpmTasks('grunt-contrib-clean');
+  grunt.loadNpmTasks('grunt-shell');
 
-  // Default task(s).
-  grunt.registerTask('default', ['uglify']);
+  // Tasks
+  grunt.registerTask('test', ['buster']);
+  grunt.registerTask('default', ['uglify', 'test']);
+  grunt.registerTask('hookmeup', ['clean:hooks', 'shell:hooks']);
 
 };
