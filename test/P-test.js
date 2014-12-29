@@ -33,6 +33,24 @@ buster.testCase("P.and", {
         }))
       .toArray(), [6, 8]
     );
+  },
+
+  "And with array as input functions": function() {
+    equals(
+      F([-10, -9, -8, 1, 2, 3, 4, 5, 6, 7, 8, 9, 20])
+      .filter(P.and([
+        function(x) {
+          return x % 2 == 0;
+        },
+        function(x) {
+          return x > 5;
+        },
+        function(x) {
+          return x < 15;
+        }
+      ]))
+      .toArray(), [6, 8]
+    );
   }
 });
 
@@ -63,6 +81,24 @@ buster.testCase("P.or", {
         function(x) {
           return x > 15;
         }))
+      .toArray(), [-10, -9, -8, 2, 4, 6, 8, 25]
+    );
+  },
+
+  "Or with array as input": function() {
+    equals(
+      F([-10, -9, -8, 1, 2, 3, 4, 5, 6, 7, 8, 9, 25])
+      .filter(P.or([
+        function(x) {
+          return x % 2 == 0;
+        },
+        function(x) {
+          return x < 0;
+        },
+        function(x) {
+          return x > 15;
+        }
+      ]))
       .toArray(), [-10, -9, -8, 2, 4, 6, 8, 25]
     );
   }
