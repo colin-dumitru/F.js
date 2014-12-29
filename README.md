@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/colin-dumitru/F.js.svg)](https://travis-ci.org/colin-dumitru/F.js)
+
 # F.js
 
 F.js is a collection of helper methods used for functional-style programming
