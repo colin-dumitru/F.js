@@ -293,3 +293,135 @@ buster.testCase("Iterable.dropWhile", {
     )
   }
 });
+
+buster.testCase("Iterable.fold", {
+  "Fold with empty arrays": function() {
+    equals(
+      F([]).fold(function() {}), undefined
+    )
+  },
+
+  "Fold with empty arrays and starting value": function() {
+    equals(
+      F([]).fold(function() {}, 10), 10
+    )
+  },
+
+  "Fold with sum": function() {
+    equals(
+      F([1, 3, 4, 5, 6]).fold(function(x, y) {
+        return x + y;
+      }), 19
+    )
+  },
+
+  "Fold with string concatenation": function() {
+    equals(
+      F(["John", "Mike", "Colin"]).fold(function(x, y) {
+        return x + " and " + y;
+      }), "John and Mike and Colin"
+    )
+  },
+
+  "Fold with sum and starting value": function() {
+    equals(
+      F([1, 3, 4, 5, 6]).fold(function(x, y) {
+        return x + y;
+      }, 10), 29
+    )
+  },
+});
+
+buster.testCase("Iterable.foreach", {
+  "with empty arrays": function() {
+    F([]).foreach(function() {
+      assert(false);
+    });
+    /* As there has to be at least one assertion */
+    assert(true);
+  },
+
+  "Sum with foreach": function() {
+    var sum = 0;
+
+    F([1, 2, 3, 4]).foreach(function(x) {
+      sum += x;
+    })
+
+    equals(sum, 10);
+  },
+
+  "Index and done": function() {
+    F([2, 4, 6]).foreach(function(x, index, done) {
+      assert.equals(x / 2, index + 1);
+
+      if (index == 2) {
+        assert(done);
+      }
+    });
+  }
+});
+
+buster.testCase("Iterable.reverse", {
+  "With empty arrays": function() {
+    equals(
+      F([]).reverse(), []
+    )
+  },
+
+  "With numbers": function() {
+    equals(
+      F([1, 2, 3, 4, 5]).reverse(), [5, 4, 3, 2, 1]
+    )
+  }
+});
+
+buster.testCase("Iterable.flatten", {
+  "with empty array": function() {
+    equals(
+      F([]).flatten().toArray(), []
+    )
+  },
+
+  "with empty arrays": function() {
+    equals(
+      F([
+        [],
+        [],
+        []
+      ]).flatten().toArray(), []
+    )
+  },
+
+  "with mixed arrays": function() {
+    equals(
+      F([
+        [],
+        [1, 2, 3],
+        [],
+        ["John", "Colin"],
+        []
+      ]).flatten().toArray(), [1, 2, 3, "John", "Colin"]
+    )
+  }
+});
+
+buster.testCase("Iterable.toMap", {
+  "With empty array": function() {
+    equals(
+      F([]).toMap(), {}
+    )
+  },
+
+  "With valid pairs": function() {
+    equals(
+      F([
+        ["A", 1],
+        ["B", 2]
+      ]).toMap(), {
+        A: 1,
+        B: 2
+      }
+    )
+  }
+});
