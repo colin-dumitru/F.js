@@ -157,6 +157,18 @@ buster.testCase("Iterable.zip", {
     )
   },
 
+  "With iterable": function() {
+    equals(
+      F(["John", "Mike", "Colin"])
+      .zip(F([1, 2, 3]))
+      .toArray(), [
+        ["John", 1],
+        ["Mike", 2],
+        ["Colin", 3]
+      ]
+    )
+  },
+
   "First array longer": function() {
     equals(
       F(["John", "Mike", "Colin"])
@@ -432,6 +444,7 @@ buster.testCase("Iterable.reverse", {
   "With empty arrays": function() {
     equals(
       F([])
+      .toArray()
       .reverse(), []
     )
   },
@@ -439,7 +452,8 @@ buster.testCase("Iterable.reverse", {
   "With numbers": function() {
     equals(
       F([1, 2, 3, 4, 5])
-      .reverse(), [5, 4, 3, 2, 1]
+      .reverse()
+      .toArray(), [5, 4, 3, 2, 1]
     )
   }
 });
