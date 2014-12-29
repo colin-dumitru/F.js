@@ -8,4 +8,25 @@ and which are indexable.)
 
 ## Installing
 
+**With bower**
+<pre>
+bower install f.js --save-dev
+</pre>
+
+And include the main script file into your project:
+<pre>
+<script src="bower_components/build/F.min.js"></script>
+</pre>
+
+**Manually downloading the zip file**
+<pre>
+url https://codeload.github.com/colin-dumitru/F.js/zip/v0.1.1 -o F.js.zip
+unzip F.js.zip
+</pre>
+
+And include the main script file into your project:
+<pre>
+<script src=F.js-0.1.1/build/F.min.js"></script>
+</pre>
+
 ## Documentation
