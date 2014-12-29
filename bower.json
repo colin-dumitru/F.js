@@ -1,0 +1,28 @@
+{
+  "name": "F.js",
+  "version": "0.1.0",
+  "homepage": "https://github.com/colin-dumitru/F.js",
+  "authors": [
+    "Catalin Dumitru <colin.dumitru@gmail.com>"
+  ],
+  "description": "Functional library for Arrays, Generators and NodeLists",
+  "moduleType": [
+    "es6",
+    "globals"
+  ],
+  "keywords": [
+    "functional",
+    "generators",
+    "nodelist",
+    "arrays",
+    "lists"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ]
+}
