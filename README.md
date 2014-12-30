@@ -39,6 +39,8 @@ And include the main script file into your project:
 
 And here is a very basic sample of some of the features of `F`.
 
+**Note**: Only works with Firefox 34 (as it's using ES6 experimental features).
+
 ```JavaScript
 // F works with ES6 generators
 function *gen() {

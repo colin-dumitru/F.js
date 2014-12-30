@@ -206,3 +206,121 @@ buster.testCase("P.hasProperty", {
     }));
   }
 });
+
+buster.testCase("P.in", {
+  "In with empty array": function() {
+    equals(
+      F([1, 2, 3, 4])
+      .filter(
+        P.in([])
+      )
+      .toArray(), []
+    )
+  },
+
+  "In with numbers": function() {
+    equals(
+      F([1, 2, 1, 4])
+      .filter(
+        P.in([1, 4])
+      )
+      .toArray(), [1, 1, 4]
+    )
+  },
+
+  "In with objects": function() {
+    var obj = {
+      a: 1
+    };
+
+    equals(
+      F([1, 2, obj, 4, obj])
+      .filter(
+        P.in([obj])
+      )
+      .toArray(), [obj, obj]
+    )
+  }
+});
+
+buster.testCase("P.equalTo", {
+  "Basic tests": function() {
+    assert(P.equalTo(1)(1));
+    assert(P.equalTo(1)(true));
+    assert(P.equalTo(1)("1"));
+  }
+});
+
+buster.testCase("P.strongEqualTo", {
+  "Basic tests": function() {
+    assert(P.strongEqualTo(1)(1));
+    assert(!P.strongEqualTo(1)(true));
+    assert(!P.strongEqualTo(1)("1"));
+  }
+});
+
+buster.testCase("P.instanceOf", {
+  "With strings": function() {
+    equals(
+      F(["John", 1, 2, "Colin", 3])
+      .filter(P.instanceOf(String))
+      .toArray(), []
+    );
+  },
+
+  "With functions": function() {
+    var p = function(name) {
+      this.name = name;
+    }
+
+    equals(
+      F([new p("John"), 1, 2, new p("Colin"), 3])
+      .filter(P.instanceOf(p))
+      .toArray(), [{
+        name: "John"
+      }, {
+        name: "Colin"
+      }]
+    );
+  }
+});
+
+buster.testCase("P.on", {
+  "With strings": function() {
+    equals(
+      F(["John", "Colin"])
+      .filter(P.on("length", function(length) {
+        return length > 4;
+      }))
+      .toArray(), ["Colin"]
+    );
+  },
+
+  "Property doesn't exist": function() {
+    equals(
+      F(["John", "Colin"])
+      .filter(P.on("bongo", P.alwaysTrue))
+      .toArray(), []
+    );
+  },
+
+  "With object": function() {
+    var people = [{
+      name: "John"
+    }, {
+      name: "Colin"
+    }, {
+      nickname: "Dave"
+    }];
+
+    equals(
+      F(people)
+      .filter(P.on("name", "length", function(length) {
+        return length > 4;
+      }))
+      .toArray(), [{
+        name: "Colin"
+      }]
+    );
+  }
+});
