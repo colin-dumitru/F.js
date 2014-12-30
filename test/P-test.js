@@ -131,34 +131,34 @@ buster.testCase("P.not", {
 
 buster.testCase("P.alwaysTrue", {
   "Basic test": function() {
-    assert(P.alwaysTrue()());
-    assert(P.alwaysTrue("Some", "Random", 1)());
+    assert(P.alwaysTrue());
+    assert(P.alwaysTrue("Some", "Random", 1));
   }
 });
 
 buster.testCase("P.alwaysFalse", {
   "Basic test": function() {
-    assert(!P.alwaysFalse()());
-    assert(!P.alwaysFalse("Some", "Random", 1)());
+    assert(!P.alwaysFalse());
+    assert(!P.alwaysFalse("Some", "Random", 1));
   }
 });
 
 buster.testCase("P.isNull", {
   "Basic test": function() {
-    assert(P.isNull()(null));
-    assert(P.isNull()(undefined));
-    assert(!P.isNull()(0));
-    assert(!P.isNull()(1));
-    assert(!P.isNull()("ABC"));
+    assert(P.isNull(null));
+    assert(P.isNull(undefined));
+    assert(!P.isNull(0));
+    assert(!P.isNull(1));
+    assert(!P.isNull("ABC"));
   }
 });
 
 buster.testCase("P.notNull", {
   "Basic test": function() {
-    assert(!P.notNull()(null));
-    assert(!P.notNull()(undefined));
-    assert(P.notNull()(0));
-    assert(P.notNull()(1));
-    assert(P.notNull()("ABC"));
+    assert(!P.notNull(null));
+    assert(!P.notNull(undefined));
+    assert(P.notNull(0));
+    assert(P.notNull(1));
+    assert(P.notNull("ABC"));
   }
 });
