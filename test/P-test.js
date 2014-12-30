@@ -162,3 +162,47 @@ buster.testCase("P.notNull", {
     assert(P.notNull("ABC"));
   }
 });
+
+buster.testCase("P.hasProperty", {
+  "No properties given": function() {
+    assert(
+      P.hasProperty()({})
+    );
+  },
+
+  "Has single nested property": function() {
+    assert(
+      P.hasProperty("parent")({
+        parent: 1
+      })
+    );
+  },
+
+  "Has multi-level nested property": function() {
+    assert(
+      P.hasProperty("grandparent", "parent", "child")({
+        grandparent: {
+          parent: {
+            child: 1
+          }
+        }
+      })
+    );
+  },
+
+  "Not has single nested property": function() {
+    assert(!P.hasProperty("parent")({
+      child: 1
+    }));
+  },
+
+  "Not has multi-level nested property": function() {
+    assert(!P.hasProperty("grandparent", "parent", "child")({
+      grandparent: {
+        parent: {
+          uncle: 1
+        }
+      }
+    }));
+  }
+});

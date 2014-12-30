@@ -34,3 +34,40 @@ And include the main script file into your project:
 ## Documentation
 * [Functional Methods](https://github.com/colin-dumitru/F.js/wiki/Functional)
 * [Predicates](https://github.com/colin-dumitru/F.js/wiki/Predicates)
+
+## Sample
+
+And here is a very basic sample of some of the features of `F`.
+
+```JavaScript
+// F works with ES6 generators
+function *gen() {
+	for (var i = 0; i < 10; i++) {
+		yield i;
+	}
+}
+
+// Node lists
+var nodes = document.getElementsByTagName("a");
+
+// Or any other indexable
+var names = ["John", "Colin", "Dave"];
+
+
+F(gen())
+	.filter(x => x % 2 == 0)
+	.map(x => x * 2)
+	.zip(
+		F(nodes)
+			.drop(4)
+			.filter(
+				P.and(
+					a => a.href.indexOf("http") != -1,
+					P.hasProperty("parentNode")
+				)
+			)
+			.map(x => x.href)
+			.concat(names)
+	)
+	.toMap()
+```
