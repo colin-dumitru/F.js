@@ -13,7 +13,7 @@ module.exports = function(grunt) {
     buster: {
       main: {
         test: {
-          config: 'test/buster.js'
+          config: 'test/node/buster.js'
         }
       }
     },
