@@ -1,3 +1,6 @@
+if (typeof buster === 'undefined') {
+  buster = require("buster");
+}
 var assert = buster.referee.assert;
 
 function equals(a, b) {

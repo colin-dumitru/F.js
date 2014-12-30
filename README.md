@@ -33,3 +33,4 @@ And include the main script file into your project:
 
 ## Documentation
 * [Functional Methods](https://github.com/colin-dumitru/F.js/wiki/Functional)
+* [Predicates](https://github.com/colin-dumitru/F.js/wiki/Predicates)

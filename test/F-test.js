@@ -1,5 +1,7 @@
-var buster = require("buster"),
-  assert = buster.referee.assert;
+if (typeof buster === 'undefined') {
+  buster = require("buster");
+}
+var assert = buster.referee.assert;
 
 function equals(a, b) {
   assert.equals(JSON.stringify(a), JSON.stringify(b));

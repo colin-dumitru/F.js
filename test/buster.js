@@ -7,6 +7,7 @@ config["F tests"] = {
     "build/*.js"
   ],
   tests: [
-    "test/F-test.js"
+    "test/F-test.js",
+    "test/P-test.js"
   ]
 }
