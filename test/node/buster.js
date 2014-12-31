@@ -10,6 +10,7 @@ config["F tests"] = {
   ],
   tests: [
     "test/F-test.js",
+    "test/F-stream-test.js",
     "test/P-test.js"
   ]
 }
