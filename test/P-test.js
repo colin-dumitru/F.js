@@ -354,3 +354,33 @@ buster.testCase("P.count", {
     assert(!p());
   }
 });
+
+buster.testCase("P.limit", {
+  "With negative numbers": function() {
+    var p = P.limit(-100);
+
+    assert(!p());
+    assert(!p());
+    assert(!p());
+  },
+
+  "With 0": function() {
+    var p = P.limit(0);
+
+    assert(!p());
+    assert(!p());
+    assert(!p());
+  },
+
+  "With positive numbers": function() {
+    var p = P.limit(5);
+
+    assert(p());
+    assert(p());
+    assert(p());
+    assert(p());
+    assert(!p());
+    assert(!p());
+    assert(!p());
+  }
+});
