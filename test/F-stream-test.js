@@ -11,39 +11,47 @@ function equals(a, b) {
 
 buster.testCase("F.stream", {
   "Elements are pushed into buffer": function() {
-    var stream = F.stream();
+    var stream = F.stream(),
+      buffer = [];
+
+    stream.then(buffer.push.bind(buffer));
 
     stream.push(1);
     stream.push(2);
 
-    equals(stream.buffer, [1, 2]);
+    equals(buffer, [1, 2]);
   },
 
-  "Elements are consumed when calling next": function() {
-    var stream = F.stream();
+  "Next is last item pushed": function() {
+    var stream = F.stream(),
+      buffer = [];
+
+    stream.then(buffer.push.bind(buffer));
 
     stream.push(1);
-    stream.push(2);
-
-    equals(stream.buffer, [1, 2]);
 
     equals(stream.next(), {
       value: 1,
       done: false
     });
+
+    stream.push(2);
+
+    equals(buffer, [1, 2]);
+
     equals(stream.next(), {
       value: 2,
       done: false
     });
   },
 
-  "onevent is fired when pushing new items": function() {
+  "Then is fired when pushing new items": function() {
     var stream = F.stream(),
       values = [];
 
-    stream.onevent = function(value) {
+    stream.then(function(value) {
       values.push(value);
-    }
+    });
 
     stream.push(1);
     stream.push(2);
@@ -51,31 +59,35 @@ buster.testCase("F.stream", {
     equals(values, [1, 2]);
   },
 
-  "Canceling streams": function() {
-    var stream = F.stream();
+  "Stopping streams": function() {
+    var stream = F.stream(),
+      doneCalled = false;
+
+    stream.done(function() {
+      doneCalled = true;
+    });
 
     stream.push(1);
-    stream.push(2);
-    stream.cancel();
-
-    equals(stream.buffer, [1, 2, undefined]);
-
     equals(stream.next(), {
       value: 1,
       done: false
     });
+    stream.push(2);
     equals(stream.next(), {
       value: 2,
       done: false
     });
+    stream.stop();
     equals(stream.next(), {
       done: true
     });
+
+    assert(doneCalled);
   },
 });
 
 buster.testCase("Iterable.pullStream", {
-  "Elements are pushed into buffer": function() {
+  "With predicate": function() {
     var stream = F.stream();
 
     var promise = F(stream)
@@ -90,7 +102,7 @@ buster.testCase("Iterable.pullStream", {
     return promise;
   },
 
-  "With no predicate and cancel": function() {
+  "With no predicate and stop": function() {
     var stream = F.stream();
 
     var promise = F(stream)
@@ -100,7 +112,7 @@ buster.testCase("Iterable.pullStream", {
       });
 
     stream.pushAll([1, 2, 3]);
-    stream.cancel();
+    stream.stop();
 
     return promise;
   },
@@ -118,7 +130,7 @@ buster.testCase("Iterable.pullStream", {
       });
 
     stream.pushAll([1, 2, 3]);
-    stream.cancel();
+    stream.stop();
 
     return promise;
   },
@@ -136,7 +148,7 @@ buster.testCase("Iterable.pullStream", {
       });
 
     stream.pushAll([1, 2, 3]);
-    stream.cancel();
+    stream.stop();
 
     return promise;
   },
@@ -152,7 +164,7 @@ buster.testCase("Iterable.pullStream", {
       });
 
     stream.pushAll([1, 2, 3]);
-    stream.cancel();
+    stream.stop();
 
     return promise;
   },
@@ -170,7 +182,7 @@ buster.testCase("Iterable.pullStream", {
       });
 
     stream.pushAll([1, 2, 3, 4, 5]);
-    stream.cancel();
+    stream.stop();
 
     return promise;
   }
