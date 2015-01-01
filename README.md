@@ -2,7 +2,7 @@
 
 # F.js
 
-F.js is a collection of helper methods used for functional-style programming
+F.js is a collection of helper methods used for functional and reactive programming
 in JavaScript. It provides methods for transforming, filtering, reducing and
 other operations which work on **arrays**, **HTMLCollections**, **ES6
 generators** (or any other type of collection which has a *length* property
@@ -92,8 +92,8 @@ F(wordStream)
 	.pullStream(wordStream);
 
 F(matchesStream)
-	.each(function(word) {
-		fetchFromService(word).then(matchesStream.push)
+	.each(function(result) {
+		render(result);
 	})
 	.pullStream(matchesStream);
 ```

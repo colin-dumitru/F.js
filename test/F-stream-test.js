@@ -187,3 +187,44 @@ buster.testCase("Iterable.pullStream", {
     return promise;
   }
 });
+
+buster.testCase("F.eventStream", {
+  "With keydown events": function() {
+    var mock = mockElement();
+
+    var promise = F(F.eventStream(mock, "keydown"))
+      .map(function(obj) {
+        return obj.keycode;
+      })
+      .pullStream(F.lastStream, P.limit(2))
+      .then(function(values) {
+        equals(values, [22, 33])
+      });
+
+    mock.trigger("keydown", {
+      keycode: 22
+    });
+    mock.trigger("keydown", {
+      keycode: 33
+    });
+
+    return promise;
+  }
+});
+
+function mockElement() {
+  var listeners = {};
+
+  function addEventListener(event, handler) {
+    listeners[event] = handler;
+  }
+
+  function trigger(event, value) {
+    listeners[event](value);
+  }
+
+  return {
+    addEventListener: addEventListener,
+    trigger: trigger
+  };
+}
