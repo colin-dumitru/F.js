@@ -430,6 +430,26 @@ buster.testCase("Iterable.foreach", {
     equals(sum, 10);
   },
 
+  "Filter and map with foreach": function() {
+    var sum = 0;
+
+    F([1, 2, 3, 4, 5])
+      .filter(function(x) {
+        return x > 2;
+      })
+      .map(function(x) {
+        return x * x;
+      })
+      .filter(function(x) {
+        return x > 10;
+      })
+      .foreach(function(x) {
+        sum += x;
+      })
+
+    equals(sum, 41);
+  },
+
   "Index and done": function() {
     F([2, 4, 6])
       .foreach(function(x, index, done) {
@@ -515,5 +535,44 @@ buster.testCase("Iterable.toMap", {
         B: 2
       }
     )
+  }
+});
+
+buster.testCase("Iterable.each", {
+  "With empty array": function() {
+    equals(
+      F([])
+      .each(function() {
+        assert(false);
+      })
+      .toArray(), []
+    )
+  },
+
+  "Return value is ignored": function() {
+    equals(
+      F([1, 2, 3, 4])
+      .each(function() {
+        return 0;
+      })
+      .toArray(), [1, 2, 3, 4]
+    )
+  },
+
+  "Each with map": function() {
+    var sum = 0;
+
+    equals(
+      F([1, 2, 3, 4])
+      .map(function(x) {
+        return x * 2;
+      })
+      .each(function(x) {
+        sum += x;
+      })
+      .toArray(), [2, 4, 6, 8]
+    )
+
+    assert.equals(sum, 20);
   }
 });

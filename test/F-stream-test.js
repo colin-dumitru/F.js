@@ -139,5 +139,39 @@ buster.testCase("Iterable.pullStream", {
     stream.cancel();
 
     return promise;
+  },
+
+  "With drop": function() {
+    var stream = F.stream();
+
+    var promise = F(stream)
+      .drop(2)
+      .pullStream(stream)
+      .then(function(values) {
+        equals(values, [3])
+      });
+
+    stream.pushAll([1, 2, 3]);
+    stream.cancel();
+
+    return promise;
+  },
+
+  "With drop while": function() {
+    var stream = F.stream();
+
+    var promise = F(stream)
+      .dropWhile(function(x) {
+        return x < 4;
+      })
+      .pullStream(stream)
+      .then(function(values) {
+        equals(values, [4, 5])
+      });
+
+    stream.pushAll([1, 2, 3, 4, 5]);
+    stream.cancel();
+
+    return promise;
   }
 });
