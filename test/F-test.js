@@ -576,3 +576,70 @@ buster.testCase("Iterable.each", {
     assert.equals(sum, 20);
   }
 });
+
+buster.testCase("Iterable.property", {
+  "With empty array": function() {
+    equals(
+      F([])
+      .property("nothing", "here")
+      .toArray(), []
+    )
+  },
+
+  "With single property": function() {
+    equals(
+      F([{
+        name: "John"
+      }, {
+        name: "Colin"
+      }, {
+        name: "Mike"
+      }])
+      .property("name")
+      .toArray(), ["John", "Colin", "Mike"]
+    )
+  },
+
+  "With missing properties": function() {
+    equals(
+      F([{
+        name: "John"
+      }, {
+        name: "Colin"
+      }, {
+        name: "Mike"
+      }])
+      .property("surname")
+      .toArray(), [null, null, null]
+    )
+  },
+
+  "With nested properties": function() {
+    equals(
+      F([{
+        name: "John"
+      }, {
+        name: "Colin"
+      }, {
+        name: "Mike"
+      }])
+      .property("name", "length")
+      .toArray(), [4, 5, 4]
+    )
+  },
+
+  "With filer properties": function() {
+    equals(
+      F([{
+        name: "John"
+      }, {
+        name: "Colin"
+      }, {
+        name: "Mike"
+      }])
+      .property("name", "length")
+      .filter(P.equalTo(4))
+      .toArray(), [4, 4]
+    )
+  },
+});
