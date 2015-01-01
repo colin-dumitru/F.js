@@ -35,11 +35,7 @@ And include the main script file into your project:
 * [Functional Methods](https://github.com/colin-dumitru/F.js/wiki/Functional)
 * [Predicates](https://github.com/colin-dumitru/F.js/wiki/Predicates)
 
-## Sample
-
-And here is a very basic sample of some of the features of `F`.
-
-**Note**: Only works with Firefox 34 (as it's using ES6 experimental features).
+## Sample - basic functionality
 
 ```JavaScript
 // F works with ES6 generators
@@ -72,4 +68,32 @@ F(gen())
 			.concat(names)
 	)
 	.toMap()
+```
+
+## Sample - streams (proposed)
+
+```JavaScript
+var keyStream = F.eventStream($("input"), "keydown"),
+	wordStream = F.stream(),
+	matchesStream = F.stream();
+
+F(keyStream)
+	.accumulateUntil(k => k.keycode == 13 /* Enter */)
+	.map(function(keys) {
+		return F(keys).property("keycode").map(String.fromCharCode).toArray().join();
+	})
+	.feedStream(wordStream)
+	.pullStream(keyStream);
+
+F(wordStream)
+	.each(function(word) {
+		fetchFromService(word).then(matchesStream.push)
+	})
+	.pullStream(wordStream);
+
+F(matchesStream)
+	.each(function(word) {
+		fetchFromService(word).then(matchesStream.push)
+	})
+	.pullStream(matchesStream);
 ```
