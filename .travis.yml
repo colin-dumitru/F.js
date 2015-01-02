@@ -4,8 +4,6 @@ before_script:
   - npm install
   - grunt
 notifications:
-  irc:
-    - chat.freenode.net#f.js
   webhooks:
     urls:
       - https://webhooks.gitter.im/e/2acde0f0186b0fbfe831
