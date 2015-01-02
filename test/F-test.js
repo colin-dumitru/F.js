@@ -643,3 +643,71 @@ buster.testCase("Iterable.property", {
     )
   }
 });
+
+buster.testCase("Iterable.accumulateUntil", {
+  "With empty array": function() {
+    equals(
+      F([])
+      .accumulateUntil(P.alwaysTrue)
+      .toArray(), []
+    )
+  },
+
+  "Predicate always true": function() {
+    equals(
+      F([1, 2, 3, 4])
+      .accumulateUntil(P.alwaysTrue)
+      .toArray(), [
+        [1],
+        [2],
+        [3],
+        [4]
+      ]
+    )
+  },
+
+  "Predicate always false": function() {
+    equals(
+      F([1, 2, 3, 4])
+      .accumulateUntil(P.alwaysFalse)
+      .toArray(), []
+    )
+  },
+
+  "Basic test": function() {
+    equals(
+      F([1, 2, 3, 4])
+      .accumulateUntil(function(x) {
+        return x % 2 == 0
+      })
+      .toArray(), [
+        [1, 2],
+        [3, 4]
+      ]
+    )
+  },
+
+  "With flatten": function() {
+    equals(
+      F([1, 2, 3, 4])
+      .accumulateUntil(function(x) {
+        return x % 2 == 0
+      })
+      .flatten()
+      .toArray(), [1, 2, 3, 4]
+    )
+  },
+
+  "With map": function() {
+    equals(
+      F([1, 1, 2, 3, 4])
+      .accumulateUntil(function(x) {
+        return x % 2 == 0
+      })
+      .map(function(x) {
+        return x.length;
+      })
+      .toArray(), [3, 2]
+    )
+  }
+});
