@@ -212,6 +212,38 @@ buster.testCase("F.eventStream", {
   }
 });
 
+buster.testCase("F.feedStream", {
+  "Basic test": function() {
+
+    var mock = mockElement(),
+
+      keyStream = F.stream(),
+
+      promise = F(keyStream)
+      .map(function(val) {
+        return val * 2;
+      })
+      .pullStream(keyStream, P.limit(2))
+      .then(function(values) {
+        equals(values, [44, 66]);
+      });
+
+    F(F.eventStream(mock, "keydown"))
+      .property("keycode")
+      .feedStream(keyStream)
+      .pullStream(F.lastStream);
+
+    mock.trigger("keydown", {
+      keycode: 22
+    });
+    mock.trigger("keydown", {
+      keycode: 33
+    });
+
+    return promise;
+  }
+});
+
 function mockElement() {
   var listeners = {};
 

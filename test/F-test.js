@@ -641,5 +641,5 @@ buster.testCase("Iterable.property", {
       .filter(P.equalTo(4))
       .toArray(), [4, 4]
     )
-  },
+  }
 });
