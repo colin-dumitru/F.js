@@ -97,34 +97,49 @@ document.write(result);
 
 > So at it's core, F.js is just another functional library. But the real power comes when you combine reactive programming with streams.
 
+Streams are nothing more than promises which can resolve multiple times. You can either push or consume values from a stream, all done asynchronously. This enabled you to write more modular async code, by passing values through streams and not callbacks.
+
+This next examples takes a search query from an input element and displays a list of images which match the given query, all done using streams.
+
+> Stream example ([RUN](http://codepen.io/colin-dumitru/pen/XJNNPJ))
+
 ```JavaScript
-var keyStream = F.eventStream($("input"), "keydown"),
-	wordStream = F.stream(),
-	matchesStream = F.stream();
+var input = $("#search_query"),
+    keyStream = F.eventStream(input, "keydown"),
+    wordStream = F.stream(),
+    imageStream = F.stream();
 
 F(keyStream)
-	.accumulateUntil(k => k.keycode == 13 /* Enter */)
-	.map(function(keys) {
-		return F(keys).property("keycode").map(String.fromCharCode).toArray().join();
-	})
-	.feedStream(wordStream)
-	.pullStream(keyStream);
+  .property("keyCode")
+  .accumulateUntil(P.equalTo(13)) /* Enter */
+  .map(function() {
+    return input.val();
+  })
+  .feedStream(wordStream)
+  .pullStream(keyStream);
 
 F(wordStream)
-	.each(function(word) {
-		fetchFromService(word).then(matchesStream.push)
-	})
-	.pullStream(wordStream);
+  .each(text => 
+        $.ajax({
+                url: url + text,
+                dataType: 'jsonp',
+                jsonp: 'jsonFlickrApi',
+                jsonpCallback: 'jsonFlickrApi'
+            })
+          .then(imageStream.push.bind(imageStream)))
+  .pullStream(wordStream);
 
-F(matchesStream)
-	.each(function(result) {
-		render(result);
-	})
-	.pullStream(matchesStream);
+F(imageStream) 
+  .each(reset)
+  .property("photos", "photo")
+  .each(images => 
+       F(images)
+        .map(render)
+        .foreach(display))
+  .pullStream(imageStream);
 ```
 
-<iframe height='350' scrolling='no' src='//codepen.io/colin-dumitru/embed/GgNNmE/' frameborder='no' allowtransparency='true' allowfullscreen='true' style='width: 100%;'>See the Pen <a href='http://codepen.io/colin-dumitru/pen/GgNNmE/'>GgNNmE</a> by Catalin Dumitru (<a href='http://codepen.io/colin-dumitru'>@colin-dumitru</a>) on <a href='http://codepen.io'>CodePen</a>.
-</iframe>
-
+Got you interested? Visit our [wiki pages](https://github.com/colin-dumitru/F.js/wiki) for more examples and information.
+ 
 [![Bitdeli Badge](https://d2weczhvl823v0.cloudfront.net/colin-dumitru/f.js/trend.png)](https://bitdeli.com/free "Bitdeli Badge")
 
