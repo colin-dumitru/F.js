@@ -2,6 +2,8 @@
 
 # F.js
 
+[![Gitter](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/colin-dumitru/F.js?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+
 F.js is a collection of helper methods used for functional and reactive programming
 in JavaScript. It provides methods for transforming, filtering, reducing and
 other operations which work on **arrays**, **HTMLCollections**, **ES6
