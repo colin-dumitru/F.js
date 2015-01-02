@@ -206,6 +206,36 @@ buster.testCase("Iterable.zip", {
       .zip([1, 2, 3])
       .toArray(), []
     )
+  },
+
+  "With filter and drop": function() {
+    var people = [{
+      name: "John",
+      age: 31
+    }, {
+      name: "Colin",
+      age: 25
+    }, {
+      name: "Dave",
+      age: 13
+    }, {
+      name: "Vic",
+      age: 52
+    }];
+
+    var result = F(people)
+      .filter(function(person) {
+        return person.age < 50;
+      })
+      .property("name")
+      .drop(1)
+      .zip(["first", "second"])
+      .toArray();
+
+    equals(result, [
+      ["Colin", "first"],
+      ["Dave", "second"]
+    ]);
   }
 });
 
