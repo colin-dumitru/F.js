@@ -6,8 +6,7 @@
 F.js is a collection of helper methods used for functional and reactive programming
 in JavaScript. It provides methods for transforming, filtering, reducing and
 other operations which work on **arrays**, **HTMLCollections**, **ES6
-generators** (or any other type of collection which has a *length* property
-and which are indexable) and **streams of events**.
+generators** (and almost all other indexables) and **streams of events**.
 
 ## Installing
 
