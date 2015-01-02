@@ -1,7 +1,6 @@
-[![Build Status](https://travis-ci.org/colin-dumitru/F.js.svg)](https://travis-ci.org/colin-dumitru/F.js)
-
 # F.js
 
+[![Build Status](https://travis-ci.org/colin-dumitru/F.js.svg)](https://travis-ci.org/colin-dumitru/F.js)
 [![Gitter](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/colin-dumitru/F.js?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 
 F.js is a collection of helper methods used for functional and reactive programming
