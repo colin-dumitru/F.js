@@ -98,3 +98,7 @@ F(matchesStream)
 	})
 	.pullStream(matchesStream);
 ```
+
+
+[![Bitdeli Badge](https://d2weczhvl823v0.cloudfront.net/colin-dumitru/f.js/trend.png)](https://bitdeli.com/free "Bitdeli Badge")
+
