@@ -36,42 +36,66 @@ And include the main script file into your project:
 * [Functional Methods](https://github.com/colin-dumitru/F.js/wiki/Functional)
 * [Predicates](https://github.com/colin-dumitru/F.js/wiki/Predicates)
 
-## Sample - basic functionality
+## Samples
+
+> F.js works with regular Arrays ([RUN](http://codepen.io/colin-dumitru/pen/GgNNmE))
 
 ```JavaScript
-// F works with ES6 generators
-function *gen() {
-	for (var i = 0; i < 10; i++) {
-		yield i;
-	}
-}
-
-// Node lists
-var nodes = document.getElementsByTagName("a");
-
-// Or any other indexable
-var names = ["John", "Colin", "Dave"];
-
-
-F(gen())
-	.filter(x => x % 2 == 0)
-	.map(x => x * 2)
-	.zip(
-		F(nodes)
-			.drop(4)
-			.filter(
-				P.and(
-					a => a.href.indexOf("http") != -1,
-					P.hasProperty("parentNode")
-				)
-			)
-			.map(x => x.href)
-			.concat(names)
-	)
-	.toMap()
+var people = [
+  { name: "John", age: 31},
+  { name: "Colin", age: 25},
+  { name: "Dave", age: 13},
+  { name: "Vic", age: 52}
+];
+ 
+var result = F(people)
+  .filter(function(person) {
+    return person.age < 50;
+  })
+  .property("name") 
+  .drop(1)
+  .zip(["first", "second"])
+  .toArray();
+ 
+document.write(JSON.stringify(result));
 ```
 
-## Sample - streams (proposed)
+> HTML collections ([RUN](http://codepen.io/colin-dumitru/pen/xbRRYw))
+
+```JavaScript
+var links = document.getElementsByTagName("a"),
+    titles = document.getElementsByTagName("h5");
+
+var result = F(links)
+  .property("href")
+  .dropWhile(function(val) {
+    return val.indexOf("http") == -1;
+  })
+  .zip(
+    F(titles)
+      .property("innerText")
+  )
+  .toMap();
+
+document.write(JSON.stringify(result));
+```
+
+> And even ES6 generators ([RUN](http://codepen.io/colin-dumitru/pen/xbRRjZ))
+
+```JavaScript
+function *gen() {
+  for (var i = 0; i < 10; i++) {
+    yield i;
+  }
+}
+
+var result = F(gen())
+  .fold((l, r) => l + r);
+
+document.write(result);
+```
+
+> So at it's core, F.js is just another functional library. But the real power comes when you combine reactive programming with streams.
 
 ```JavaScript
 var keyStream = F.eventStream($("input"), "keydown"),
@@ -99,6 +123,8 @@ F(matchesStream)
 	.pullStream(matchesStream);
 ```
 
+<iframe height='350' scrolling='no' src='//codepen.io/colin-dumitru/embed/GgNNmE/' frameborder='no' allowtransparency='true' allowfullscreen='true' style='width: 100%;'>See the Pen <a href='http://codepen.io/colin-dumitru/pen/GgNNmE/'>GgNNmE</a> by Catalin Dumitru (<a href='http://codepen.io/colin-dumitru'>@colin-dumitru</a>) on <a href='http://codepen.io'>CodePen</a>.
+</iframe>
 
 [![Bitdeli Badge](https://d2weczhvl823v0.cloudfront.net/colin-dumitru/f.js/trend.png)](https://bitdeli.com/free "Bitdeli Badge")
 
