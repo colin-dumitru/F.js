@@ -146,7 +146,7 @@ buster.testCase("P.alwaysFalse", {
 buster.testCase("P.isNull", {
   "Basic test": function() {
     assert(P.isNull(null));
-    assert(P.isNull(undefined));
+    assert(!P.isNull(undefined));
     assert(!P.isNull(0));
     assert(!P.isNull(1));
     assert(!P.isNull("ABC"));
@@ -156,7 +156,7 @@ buster.testCase("P.isNull", {
 buster.testCase("P.notNull", {
   "Basic test": function() {
     assert(!P.notNull(null));
-    assert(!P.notNull(undefined));
+    assert(P.notNull(undefined));
     assert(P.notNull(0));
     assert(P.notNull(1));
     assert(P.notNull("ABC"));

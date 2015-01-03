@@ -18,6 +18,13 @@ module.exports = function(grunt) {
       }
     },
 
+    jshint: {
+      all: ['lib/*.js'],
+      options: {
+        jshintrc: '.jshintrc',
+      },
+    },
+
     clean: {
       // Clean any pre-commit hooks in .git/hooks directory
       hooks: ['.git/hooks/pre-commit']
@@ -35,11 +42,12 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-contrib-uglify');
   grunt.loadNpmTasks('grunt-buster');
   grunt.loadNpmTasks('grunt-contrib-clean');
+  grunt.loadNpmTasks('grunt-contrib-jshint');
   grunt.loadNpmTasks('grunt-shell');
 
   // Tasks
   grunt.registerTask('test', ['buster']);
-  grunt.registerTask('default', ['uglify', 'test']);
+  grunt.registerTask('default', ['jshint', 'uglify', 'test']);
   grunt.registerTask('hookmeup', ['clean:hooks', 'shell:hooks']);
 
 };
