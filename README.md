@@ -141,3 +141,5 @@ F(imageStream)
 ```
 
 Got you interested? Visit our [wiki pages](https://github.com/colin-dumitru/F.js/wiki) for more examples and information.
+
+> MIT license
