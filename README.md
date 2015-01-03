@@ -2,6 +2,8 @@
 
 [![Build Status](https://travis-ci.org/colin-dumitru/F.js.svg)](https://travis-ci.org/colin-dumitru/F.js)
 [![Gitter](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/colin-dumitru/F.js?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+[![Stable release](https://img.shields.io/bower/v/f.js.svg)](http://bower.io/search/?q=f.js)
+
 
 F.js is a collection of helper methods used for functional and reactive programming
 in JavaScript. It provides methods for transforming, filtering, reducing and
@@ -46,16 +48,16 @@ var people = [
   { name: "Dave", age: 13},
   { name: "Vic", age: 52}
 ];
- 
+
 var result = F(people)
   .filter(function(person) {
     return person.age < 50;
   })
-  .property("name") 
+  .property("name")
   .drop(1)
   .zip(["first", "second"])
   .toArray();
- 
+
 document.write(JSON.stringify(result));
 ```
 
@@ -118,7 +120,7 @@ F(keyStream)
   .pullStream(keyStream);
 
 F(wordStream)
-  .each(text => 
+  .each(text =>
         $.ajax({
                 url: url + text,
                 dataType: 'jsonp',
@@ -128,10 +130,10 @@ F(wordStream)
           .then(imageStream.push.bind(imageStream)))
   .pullStream(wordStream);
 
-F(imageStream) 
+F(imageStream)
   .each(reset)
   .property("photos", "photo")
-  .each(images => 
+  .each(images =>
        F(images)
         .map(render)
         .foreach(display))
@@ -139,6 +141,3 @@ F(imageStream)
 ```
 
 Got you interested? Visit our [wiki pages](https://github.com/colin-dumitru/F.js/wiki) for more examples and information.
- 
-[![Bitdeli Badge](https://d2weczhvl823v0.cloudfront.net/colin-dumitru/f.js/trend.png)](https://bitdeli.com/free "Bitdeli Badge")
-
