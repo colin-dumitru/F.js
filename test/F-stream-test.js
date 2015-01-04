@@ -209,6 +209,49 @@ buster.testCase("F.eventStream", {
     });
 
     return promise;
+  },
+
+  "With keydown events and take": function() {
+    var mock = mockElement();
+
+    var promise = F(F.eventStream(mock, "keydown"))
+      .map(function(obj) {
+        return obj.keycode;
+      })
+      .take(1)
+      .pullStream(F.lastStream)
+      .then(function(values) {
+        equals(values, [22])
+      });
+
+    mock.trigger("keydown", {
+      keycode: 22
+    });
+    return promise;
+  },
+
+  "Handlers are removed after the stream is stopped": function() {
+    var mock = mockElement();
+
+    var promise = F(F.eventStream(mock, "keydown"))
+      .map(function(obj) {
+        return obj.keycode;
+      })
+      .pullStream(F.lastStream, P.limit(2))
+      .then(function(values) {
+        equals(values, [22, 33])
+      });
+
+    mock.trigger("keydown", {
+      keycode: 22
+    });
+    mock.trigger("keydown", {
+      keycode: 33
+    });
+
+    assert(!mock.listeners["keydown"])
+
+    return promise;
   }
 });
 
@@ -244,11 +287,202 @@ buster.testCase("F.feedStream", {
   }
 });
 
+buster.testCase("Stream.multiplexStream", {
+  "With array of streams": function() {
+
+    var s1 = F.stream(),
+      s2 = F.stream(),
+      s3 = F.stream(),
+      multiplex = F.multiplexStream([s1, s2, s3]),
+
+      values = [],
+      doneCalled = false;
+
+    multiplex
+      .then(function(value) {
+        values.push(value);
+      })
+      .done(function(values) {
+        doneCalled = true;
+      });
+
+    s3.push(1);
+    s2.push(2);
+    s1.push(3);
+    s3.push(4);
+    s3.push(5);
+
+    s1.stop();
+    s2.stop();
+    s3.stop();
+
+    equals(values, [1, 2, 3, 4, 5]);
+    assert(doneCalled);
+  },
+
+  "With variadic function": function() {
+
+    var s1 = F.stream(),
+      s2 = F.stream(),
+      s3 = F.stream(),
+      multiplex = F.multiplexStream(s1, s2, s3),
+
+      values = [],
+      doneCalled = false;
+
+    multiplex
+      .then(function(value) {
+        values.push(value);
+      })
+      .done(function(values) {
+        doneCalled = true;
+      });
+
+    s3.push(1);
+    s2.push(2);
+    s1.push(3);
+    s3.push(4);
+    s3.push(5);
+
+    s1.stop();
+    s2.stop();
+    s3.stop();
+
+    equals(values, [1, 2, 3, 4, 5]);
+    assert(doneCalled);
+  },
+
+  "With pull stream": function() {
+    var s1 = F.stream(),
+      s2 = F.stream(),
+      s3 = F.stream(),
+      multiplex = F.multiplexStream(s1, s2, s3),
+
+      values = [],
+
+      promise = F(multiplex)
+      .filter(function(val) {
+        return val % 2 == 0;
+      })
+      .map(function(val) {
+        return val * 2;
+      })
+      .each(values.push.bind(values))
+      .pullStream(multiplex)
+      .then(function(values) {
+        equals(values, [4, 8]);
+      });
+
+    s3.push(1);
+    s2.push(2);
+    s1.push(3);
+    s3.push(4);
+    s3.push(5);
+
+    s1.stop();
+    s2.stop();
+    s3.stop();
+
+    equals(values, [4, 8]);
+
+    return promise;
+  }
+});
+
+buster.testCase("Stream.multiplexStream", {
+  "Stream is stopped after three tries": function() {
+    var stream = F.intervalStream("Colin", 10),
+      values = [];
+
+    return new Promise(function(resolve) {
+      stream.then(function(value) {
+        values.push(value);
+
+        if (values.length == 3) {
+          stream.stop();
+        }
+      });
+      stream.done(function() {
+        equals(values, ["Colin", "Colin", "Colin"]);
+        resolve();
+      });
+    });
+  },
+
+  "With drop and limit": function() {
+    var stream = F.intervalStream(50, 10),
+      values = [];
+
+    return new Promise(function(resolve) {
+      F(stream)
+        .drop(2)
+        .pullStream(stream, P.limit(3))
+        .then(function(values) {
+          equals(values, [50]);
+          resolve()
+        });
+    });
+  }
+});
+
+buster.testCase("Stream.multiplexStream", {
+  "Stream is never stopped": function() {
+    var stream = F.timerStream("Colin", 10),
+      values = [];
+
+    return new Promise(function(resolve) {
+      stream.then(function(value) {
+        values.push(value);
+      });
+      stream.done(function() {
+        equals(values, ["Colin"]);
+        resolve();
+      });
+    });
+  },
+
+  "Stream is stopped before the timeout": function() {
+    var stream = F.timerStream("Colin", 5000),
+      values = [];
+
+    return new Promise(function(resolve) {
+      stream.then(function(value) {
+        values.push(value);
+      });
+      stream.done(function() {
+        equals(values, []);
+        resolve();
+      });
+
+      stream.stop();
+    });
+  },
+
+  "With drop": function() {
+    var stream = F.timerStream(50, 10),
+      values = [];
+
+    return new Promise(function(resolve) {
+      F(stream)
+        .drop(1)
+        .pullStream(stream)
+        .then(function(values) {
+          equals(values, []);
+          resolve()
+        });
+    });
+  }
+});
+
 function mockElement() {
   var listeners = {};
 
   function addEventListener(event, handler) {
     listeners[event] = handler;
+  }
+
+  function removeEventListener(event, handler) {
+    delete listeners[event];
   }
 
   function trigger(event, value) {
@@ -257,6 +491,8 @@ function mockElement() {
 
   return {
     addEventListener: addEventListener,
-    trigger: trigger
+    removeEventListener: removeEventListener,
+    trigger: trigger,
+    listeners: listeners
   };
 }

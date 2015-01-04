@@ -363,6 +363,17 @@ buster.testCase("Iterable.drop", {
       .drop(2)
       .toArray(), [3, 4, 5]
     )
+  },
+
+  "Drop with filter": function() {
+    equals(
+      F([1, 2, 3, 4, 5, 6])
+      .filter(function(x) {
+        return x % 2 == 0;
+      })
+      .drop(2)
+      .toArray(), [6]
+    )
   }
 });
 
@@ -739,5 +750,58 @@ buster.testCase("Iterable.accumulateUntil", {
       })
       .toArray(), [3, 2]
     )
+  }
+});
+
+buster.testCase("F.log", {
+  "Basic test": function() {
+    var result = F([1, 2, 3, 4])
+      .filter(function(x) {
+        return x % 2 == 0;
+      })
+      .log()
+      .fold(function(l, r) {
+        return l + r;
+      });
+
+    assert.equals(result, 6);
+  }
+});
+
+buster.testCase("F.take", {
+  "Basic test": function() {
+    var result = F([1, 2, 3, 4])
+      .take(2)
+      .toArray();
+
+    assert.equals(result, [1, 2]);
+  },
+
+  "With not enough elements": function() {
+    var result = F([1, 2, 3, 4])
+      .take(20)
+      .toArray();
+
+    assert.equals(result, [1, 2, 3, 4]);
+  },
+
+  "With drop": function() {
+    var result = F([1, 2, 3, 4, 5, 6])
+      .drop(2)
+      .take(2)
+      .toArray();
+
+    assert.equals(result, [3, 4]);
+  },
+
+  "With filter": function() {
+    var result = F([1, 2, 3, 4, 5, 6])
+      .filter(function(x) {
+        return x % 2 == 0;
+      })
+      .take(2)
+      .toArray();
+
+    assert.equals(result, [2, 4]);
   }
 });
