@@ -236,6 +236,43 @@ buster.testCase("Iterable.zip", {
       ["Colin", "first"],
       ["Dave", "second"]
     ]);
+  },
+
+  "With streams": function() {
+    var s1 = F.stream(),
+      s2 = F.stream();
+    console.log("start");
+
+    var promise = F(s1)
+      .filter(function(x) {
+        return x % 2 == 0;
+      })
+      .zip(
+        F(s2)
+        .filter(function(x) {
+          return x % 2 == 1;
+        })
+      )
+      .pullStream(F.mplex(s1, s2))
+      .then(function(values) {
+        equals(values, [
+          [2, 1],
+          [4, 3],
+          [6, 5],
+          [8, 11],
+          [10, 13],
+        ]);
+      });
+
+    s1.pushAll([1, 2, 3, 4, 5]);
+    s2.pushAll([1, 2, 3, 4, 5]);
+    s1.pushAll([6, 7, 8, 9, 10]);
+    s2.pushAll([11, 12, 13, 14]);
+
+    s1.stop();
+    s2.stop();
+
+    return promise;
   }
 });
 
@@ -425,6 +462,16 @@ buster.testCase("Iterable.takeWhile", {
     equals(
       F([])
       .takeWhile(function() {})
+      .toArray(), []
+    )
+  },
+
+  "No values match": function() {
+    equals(
+      F([1, 2, 3, 4, 5])
+      .takeWhile(function(x) {
+        return x < 0;
+      })
       .toArray(), []
     )
   },

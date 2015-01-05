@@ -45,6 +45,17 @@ buster.testCase("F.stream", {
     });
   },
 
+  "Buffered next": function() {
+    var stream = F.stream(3);
+
+    stream.pushAll([1, 2, 3, 4]);
+
+    assert.equals(stream.next().value, 2);
+    assert.equals(stream.next().value, 3);
+    assert.equals(stream.next().value, 4);
+    assert.equals(stream.next().value, undefined);
+  },
+
   "Then is fired when pushing new items": function() {
     var stream = F.stream(),
       values = [];
