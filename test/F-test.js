@@ -404,6 +404,62 @@ buster.testCase("Iterable.dropWhile", {
       })
       .toArray(), [3, 4, 5]
     )
+  },
+
+  "Drop and filter": function() {
+    equals(
+      F([1, 2, 3, 4, 5, 6])
+      .filter(function(x) {
+        return x % 2 == 0;
+      })
+      .dropWhile(function(x) {
+        return x < 3;
+      })
+      .toArray(), [4, 6]
+    )
+  }
+});
+
+buster.testCase("Iterable.takeWhile", {
+  "Empty arrays": function() {
+    equals(
+      F([])
+      .takeWhile(function() {})
+      .toArray(), []
+    )
+  },
+
+  "All values match": function() {
+    equals(
+      F([1, 2, 3, 4, 5])
+      .takeWhile(function(x) {
+        return x < 10;
+      })
+      .toArray(), [1, 2, 3, 4, 5]
+    )
+  },
+
+  "Take some values": function() {
+    equals(
+      F([1, 2, 3, 4, 5])
+      .takeWhile(function(x) {
+        return x < 3;
+      })
+      .toArray(), [1, 2]
+    )
+  },
+
+  "Take and filter": function() {
+    equals(
+      F([1, 2, 3, 4, 5, 6])
+      .filter(function(x) {
+        return x % 2 == 0;
+      })
+      .takeWhile(function(x) {
+        return x < 5;
+      })
+      .toArray(), [2, 4]
+    )
   }
 });
 
