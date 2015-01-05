@@ -37,8 +37,10 @@ And include the main script file into your project:
 </pre>
 
 ## Documentation
+* [Introduction](https://github.com/colin-dumitru/F.js/wiki)
 * [Functional Methods](https://github.com/colin-dumitru/F.js/wiki/Functional)
 * [Predicates](https://github.com/colin-dumitru/F.js/wiki/Predicates)
+* [Streams](https://github.com/colin-dumitru/F.js/wiki/Streams)
 
 ## Samples
 
