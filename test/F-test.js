@@ -1008,3 +1008,69 @@ buster.testCase("F.take", {
     assert.equals(result, [2, 4]);
   }
 });
+
+buster.testCase("F.unique", {
+  "Empty array": function() {
+    var result = F([])
+      .unique()
+      .toArray();
+
+    assert.equals(result, []);
+  },
+
+  "With numbers": function() {
+    var result = F([1, 2, 3, 1, 1, 4, 5, 2])
+      .unique()
+      .toArray();
+
+    assert.equals(result, [1, 2, 3, 4, 5]);
+  },
+
+  "With strings": function() {
+    var result = F(["a", "A", "a", "b", "c", "b", "b"])
+      .unique()
+      .toArray();
+
+    assert.equals(result, ["a", "A", "b", "c"]);
+  },
+
+  "With objects": function() {
+    var o1 = {},
+      o2 = {},
+      o3 = {},
+
+      result = F([o1, o1, o2, o3, o2, o1, o2])
+      .unique()
+      .toArray();
+
+    assert.equals(result, [o1, o2, o3]);
+  },
+
+  "With filter": function() {
+    var result = F([1, 2, 3, 1, 1, 4, 5, 2])
+      .filter(function(val) {
+        return val % 2 == 0;
+      })
+      .unique()
+      .toArray();
+
+    assert.equals(result, [2, 4]);
+  },
+
+  "With stream": function() {
+    var
+      stream = F.stream(),
+
+      result = F(stream)
+      .unique()
+      .pullStream(stream)
+      .then(function(values) {
+        equals(values, [1, 2, 3, 4, 5]);
+      });
+
+    stream.pushAll([1, 2, 3, 1, 1, 4, 5, 2]);
+    stream.stop();
+
+    return result;
+  }
+});
