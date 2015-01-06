@@ -7,6 +7,49 @@ function equals(a, b) {
   assert.equals(JSON.stringify(a), JSON.stringify(b));
 }
 
+buster.testCase("Iterable from object", {
+  "Empty object": function() {
+    equals(
+      F({})
+      .toArray(), []
+    )
+  },
+
+  "Mixed key values": function() {
+    equals(
+      F({
+        a: 1,
+        1: "b",
+        2: undefined,
+        3: null
+      })
+      .toArray(), [
+        ["1", "b"],
+        ["2", null],
+        ["3", null],
+        ["a", 1]
+      ]
+    )
+  },
+
+  "With map and filter": function() {
+    equals(
+      F({
+        1: "John",
+        2: "Colin",
+        3: "Jake"
+      })
+      .map(function(val) {
+        return val[1];
+      })
+      .filter(function(val) {
+        return val.length == 4;
+      })
+      .toArray(), ["John", "Jake"]
+    )
+  }
+});
+
 buster.testCase("Iterable.toArray", {
   "Numbers multiplied by 2": function() {
     equals(
@@ -784,6 +827,63 @@ buster.testCase("Iterable.property", {
       .property("name", "length")
       .filter(P.equalTo(4))
       .toArray(), [4, 4]
+    )
+  }
+});
+
+buster.testCase("Iterable.keys", {
+  "With empty array": function() {
+    equals(
+      F([])
+      .keys()
+      .toArray(), []
+    )
+  },
+
+  "With mixed keys": function() {
+    equals(
+      F({
+        a: 1,
+        2: "b",
+        null: "c"
+      })
+      .keys()
+      .toArray(), ["2", "a", "null"]
+    )
+  }
+});
+
+buster.testCase("Iterable.values", {
+  "With empty array": function() {
+    equals(
+      F([])
+      .values()
+      .toArray(), []
+    )
+  },
+
+  "With mixed values": function() {
+    equals(
+      F({
+        a: 1,
+        2: "b",
+        null: "c"
+      })
+      .values()
+      .toArray(), ["b", 1, "c"]
+    )
+  },
+
+  "With undefined values": function() {
+    equals(
+      F({
+        a: 1,
+        2: "b",
+        null: undefined,
+        3: 5
+      })
+      .values()
+      .toArray(), ["b", 5, 1]
     )
   }
 });
