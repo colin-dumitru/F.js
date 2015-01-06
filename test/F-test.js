@@ -50,6 +50,26 @@ buster.testCase("Iterable from object", {
   }
 });
 
+buster.testCase("Iterable from function", {
+  "Function which doesn't return anything": function() {
+    equals(
+      F(function() {})
+      .toArray(), []
+    )
+  },
+
+  "With generated values": function() {
+    equals(
+      F(function(index) {
+        if (index < 5) {
+          return 2 * index;
+        }
+      })
+      .toArray(), [0, 2, 4, 6, 8]
+    )
+  }
+});
+
 buster.testCase("Iterable.toArray", {
   "Numbers multiplied by 2": function() {
     equals(
@@ -284,7 +304,6 @@ buster.testCase("Iterable.zip", {
   "With streams": function() {
     var s1 = F.stream(),
       s2 = F.stream();
-    console.log("start");
 
     var promise = F(s1)
       .filter(function(x) {
@@ -1072,5 +1091,122 @@ buster.testCase("F.unique", {
     stream.stop();
 
     return result;
+  }
+});
+
+buster.testCase("F.all", {
+  "Empty array": function() {
+    var result = F([])
+      .all();
+
+    assert.equals(result, true);
+  },
+
+  "All values match": function() {
+    var result = F([1, 3, 5])
+      .all(function(val) {
+        return val % 2 == 1;
+      });
+
+    assert.equals(result, true);
+  },
+
+  "Not all values match": function() {
+    var result = F([1, 3, 2, 5])
+      .all(function(val) {
+        return val % 2 == 1;
+      });
+
+    assert.equals(result, false);
+  },
+
+  "With filter": function() {
+    var result = F([1, 3, 2, 5])
+      .filter(function(val) {
+        return val % 2 == 1;
+      })
+      .all(function(val) {
+        return val % 2 == 1;
+      });
+
+    assert.equals(result, true);
+  }
+});
+
+buster.testCase("F.some", {
+  "Empty array": function() {
+    var result = F([])
+      .some();
+
+    assert.equals(result, false);
+  },
+
+  "Some values match": function() {
+    var result = F([1, 2, 5])
+      .some(function(val) {
+        return val % 2 == 0;
+      });
+
+    assert.equals(result, true);
+  },
+
+  "No values match": function() {
+    var result = F([1, 3, 5])
+      .all(function(val) {
+        return val % 2 == 0;
+      });
+
+    assert.equals(result, false);
+  },
+
+  "With filter": function() {
+    var result = F([1, 3, 2, 5])
+      .filter(function(val) {
+        return val % 2 == 1;
+      })
+      .some(function(val) {
+        return val % 2 == 1;
+      });
+
+    assert.equals(result, true);
+  }
+});
+
+buster.testCase("F.none", {
+  "Empty array": function() {
+    var result = F([])
+      .none();
+
+    assert.equals(result, true);
+  },
+
+  "Some values match": function() {
+    var result = F([1, 2, 5])
+      .none(function(val) {
+        return val % 2 == 0;
+      });
+
+    assert.equals(result, false);
+  },
+
+  "No values match": function() {
+    var result = F([1, 3, 5])
+      .none(function(val) {
+        return val % 2 == 0;
+      });
+
+    assert.equals(result, true);
+  },
+
+  "With filter": function() {
+    var result = F([1, 3, 2, 5])
+      .filter(function(val) {
+        return val % 2 == 1;
+      })
+      .none(function(val) {
+        return val % 2 == 0;
+      });
+
+    assert.equals(result, true);
   }
 });
