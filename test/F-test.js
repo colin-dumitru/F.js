@@ -1210,3 +1210,67 @@ buster.testCase("F.none", {
     assert.equals(result, true);
   }
 });
+
+buster.testCase("F.max", {
+  "Empty array": function() {
+    var result = F([])
+      .max();
+
+    assert.equals(result, undefined);
+  },
+
+  "Single number": function() {
+    var result = F([1])
+      .max();
+
+    assert.equals(result, 1);
+  },
+
+  "Multiple numbers": function() {
+    var result = F([5, 3, 1, 2, 10, 3, 4])
+      .max();
+
+    assert.equals(result, 10);
+  },
+
+  "Custom compare method": function() {
+    var result = F(["John", "Colin", "Dave"])
+      .max(function(l, r) {
+        return l.length > r.length;
+      });
+
+    assert.equals(result, "Colin");
+  }
+});
+
+buster.testCase("F.min", {
+  "Empty array": function() {
+    var result = F([])
+      .min();
+
+    assert.equals(result, undefined);
+  },
+
+  "Single number": function() {
+    var result = F([1])
+      .min();
+
+    assert.equals(result, 1);
+  },
+
+  "Multiple numbers": function() {
+    var result = F([5, 3, 1, 2, 10, 3, 4])
+      .min();
+
+    assert.equals(result, 1);
+  },
+
+  "Custom compare method": function() {
+    var result = F(["John", "Colin", "Michael"])
+      .min(function(l, r) {
+        return l.length < r.length;
+      });
+
+    assert.equals(result, "John");
+  }
+});
