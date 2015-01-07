@@ -3,6 +3,7 @@
 [![Build Status](https://travis-ci.org/colin-dumitru/F.js.svg)](https://travis-ci.org/colin-dumitru/F.js)
 [![Gitter](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/colin-dumitru/F.js?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 [![Stable release](https://img.shields.io/bower/v/f.js.svg)](http://bower.io/search/?q=f.js)
+[![Stable release](https://img.shields.io/npm/v/f-js.svg)](https://www.npmjs.com/package/f-js)
 [![MIT License](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/colin-dumitru/F.js/blob/master/LICENSE)
 
 
