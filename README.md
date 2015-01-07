@@ -25,27 +25,27 @@ And include the main script file into your project:
 ```
 
 **With NPM**
-<pre>
+```bash
 npm install f-js --save-dev
-</pre>
+```
 
 And require the `f-js` module into your files:
-<pre>
+```JavaScript
 var Fjs = require("f-js"),
   F = Fjs.F,
   P = Fjs.P;
-</pre>
+```
 
 **Manually downloading the zip file**
-<pre>
-url https://codeload.github.com/colin-dumitru/F.js/zip/v0.1.1 -o F.js.zip
+```bash
+curl https://codeload.github.com/colin-dumitru/F.js/zip/v0.1.1 -o F.js.zip
 unzip F.js.zip
-</pre>
+```
 
 And include the main script file into your project:
-<pre>
-&lt;script src="F.js-0.1.1/build/F.min.js"&gt;&lt;/script&gt;
-</pre>
+```bash
+<script src="F.js-0.1.1/build/F.min.js"></script>
+```
 
 ## Documentation
 * [Introduction](https://github.com/colin-dumitru/F.js/wiki)
