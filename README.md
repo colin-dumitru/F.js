@@ -15,13 +15,25 @@ generators** (and almost all other indexables) and **streams of events**.
 ## Installing
 
 **With bower**
-<pre>
+```bash
 bower install f.js --save-dev
-</pre>
+```
 
 And include the main script file into your project:
+```HTML
+<script src="bower_components/f.js/build/F.min.js"></script>
+```
+
+**With NPM**
 <pre>
-&lt;script src="bower_components/f.js/build/F.min.js"&gt;&lt;/script&gt;
+npm install f-js --save-dev
+</pre>
+
+And require the `f-js` module into your files:
+<pre>
+var Fjs = require("f-js"),
+  F = Fjs.F,
+  P = Fjs.P;
 </pre>
 
 **Manually downloading the zip file**
