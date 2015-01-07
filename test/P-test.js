@@ -1,3 +1,7 @@
+var Fjs = require("../build/F.min.js"),
+  F = Fjs.F,
+  P = Fjs.P;
+
 if (typeof buster === 'undefined') {
   buster = require("buster");
 }

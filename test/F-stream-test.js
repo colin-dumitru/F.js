@@ -1,3 +1,7 @@
+var Fjs = require("../build/F.min.js"),
+  F = Fjs.F,
+  P = Fjs.P;
+
 if (typeof require !== 'undefined') {
   buster = require("buster");
   Promise = require('es6-promise')

@@ -1,6 +1,21 @@
 {
-  "name": "F.js",
-  "version": "0.1.0",
+  "name": "F-js",
+  "version": "0.4.0",
+  "description": "Dead simple library for functional and reactive programming",
+  "main": "build/F.min.js",
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:colin-dumitru/F.js.git"
+  },
+  "keywords": [
+    "functional",
+    "reactive"
+  ],
+  "author": "Catalin Dumitru <colin.dumitru@gmail.com> (http://colin-dumitru.github.io/)",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/colin-dumitru/F.js/issues"
+  },
   "devDependencies": {
     "buster": "^0.7.18",
     "es6-promise": "^2.0.1",

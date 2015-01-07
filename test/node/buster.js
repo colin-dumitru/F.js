@@ -5,9 +5,7 @@ var config = module.exports;
 config["F tests"] = {
   rootPath: "../../",
   environment: "node",
-  sources: [
-    "build/*.js"
-  ],
+  sources: [],
   tests: [
     "test/F-test.js",
     "test/F-stream-test.js",
