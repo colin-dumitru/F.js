@@ -17,9 +17,6 @@ generators** (and almost all other indexables) and **streams of events**.
 
 ## Installing
 
-**Note!**: The current version requires an ES6 Promises polyfill. However, we
-are working on an integrated polyfill so this requirement will be removed.
-
 **With bower**
 ```bash
 bower install f.js --save-dev
