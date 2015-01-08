@@ -6,6 +6,8 @@
 [![Stable release](https://img.shields.io/npm/v/f-js.svg)](https://www.npmjs.com/package/f-js)
 [![MIT License](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/colin-dumitru/F.js/blob/master/LICENSE)
 
+[![Sauce Test Status](https://saucelabs.com/browser-matrix/colindumitru.svg)](https://saucelabs.com/u/colindumitru)
+
 
 
 F.js is a collection of helper methods used for functional and reactive programming
