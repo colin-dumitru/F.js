@@ -1,6 +1,6 @@
 {
   "name": "f-js",
-  "version": "0.4.2",
+  "version": "0.4.4",
   "description": "Dead simple library for functional and reactive programming",
   "main": "build/F.min.js",
   "directories" : {
