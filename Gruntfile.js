@@ -38,6 +38,23 @@ module.exports = function(grunt) {
         // Copy the project's pre-commit hook into .git/hooks
         command: 'cp git-hooks/pre-commit .git/hooks/'
       }
+    },
+
+    'saucelabs-custom': {
+      all: {
+        options: {
+          urls: ['http://localhost:8000/'],
+          testname: 'F.js',
+          browsers: [
+            ["XP", "firefox", 28],
+            ["XP", "chrome", 31]
+          ],
+          sauceConfig: {
+            'record-video': false,
+            'capture-html': true
+          }
+        }
+      }
     }
   });
 
@@ -46,9 +63,10 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-contrib-clean');
   grunt.loadNpmTasks('grunt-contrib-jshint');
   grunt.loadNpmTasks('grunt-shell');
+  grunt.loadNpmTasks('grunt-saucelabs');
 
   // Tasks
-  grunt.registerTask('test', ['buster']);
+  grunt.registerTask('test', ['buster', 'saucelabs-custom']);
   grunt.registerTask('default', ['jshint', 'uglify', 'test']);
   grunt.registerTask('hookmeup', ['clean:hooks', 'shell:hooks']);
 

@@ -42,7 +42,7 @@ var Fjs = require("f-js"),
 
 **Manually downloading the zip file**
 ```bash
-curl https://codeload.github.com/colin-dumitru/F.js/zip/v0.4.5 -o F.js.zip
+curl "https://codeload.github.com/colin-dumitru/F.js/zip/"`curl https://github.com/colin-dumitru/F.js/releases/latest| grep -o 'href=".*"' | cut -d / -f 8 | tr -d '"'` > F.js.zip
 unzip F.js.zip
 ```
 

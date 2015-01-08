@@ -1,13 +1,18 @@
 language: node_js
-node_js: "0.11"
+node_js: '0.11'
 before_script:
-  - npm install
-  - grunt
+- npm install
+- buster-static -p 8000 -c test/sauce/buster.js -r sauce
+- grunt
 notifications:
   webhooks:
     urls:
-      - https://webhooks.gitter.im/e/bee6497424121cc1673a
-    on_success: always  # options: [always|never|change] default: always
-    on_failure: always  # options: [always|never|change] default: always
-    on_start: false     # default: false
+    - https://webhooks.gitter.im/e/bee6497424121cc1673a
+    on_success: always
+    on_failure: always
+    on_start: false
   email: false
+env:
+  global:
+  - secure: mtBhye42FkrU+Ff3hdMugeSfDQaGhgADw0dXkFjdSw/FmYNC3VtlGTkDP9GmkYAh7o7oUQ0OnItzANLkYMk4IaioE0rMwNbMJvXdTjjljIQawiv2uIATtCyC5nSSKpklCA6+hAl0EKecPPFg8jie4mw1qPMt0B55IBWRLB7ts+Y=
+  - secure: Lo5W7gmDz+TCt5TCNZ5CSWtS9bb2xSYFaWh470OUUJ+xz5sTuhbaAIZG8dFQKBLlKSFKH8kL5lfxJLo7K7CGCCT0bTWdZXjt4U+aV4G2RFD18/XjFkPOFkGm4Vf+5Ftw3b0oXCf2dDZGBmP3JZL0TPOR7QrFaQEdOZgjvGKCwg0=

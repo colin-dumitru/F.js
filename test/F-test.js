@@ -26,12 +26,12 @@ buster.testCase("Iterable from object", {
         2: undefined,
         3: null
       })
-      .toArray(), [
-        ["1", "b"],
-        ["2", null],
-        ["3", null],
-        ["a", 1]
-      ]
+      .toMap(), {
+        a: 1,
+        1: "b",
+        2: undefined,
+        3: null
+      }
     )
   },
 
