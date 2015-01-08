@@ -45,6 +45,7 @@ module.exports = function(grunt) {
         options: {
           urls: ['http://localhost:8000/'],
           testname: 'F.js',
+          build: process.env.TRAVIS_JOB_ID,
           browsers: [
             ["XP", "firefox", 28],
             ["XP", "chrome", 31]

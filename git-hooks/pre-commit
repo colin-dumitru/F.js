@@ -3,4 +3,4 @@
 # Pre-commit hooks
 
 # Build the dist file before committing
-grunt
+grunt uglify
