@@ -1,9 +1,8 @@
-var Fjs = require("../dist/F.min.js"),
-  F = Fjs.F,
-  P = Fjs.P;
-
-if (typeof buster === 'undefined') {
-  buster = require("buster");
+if (typeof require !== 'undefined') {
+  var Fjs = require("../dist/F.min.js"),
+    F = Fjs.F,
+    P = Fjs.P,
+    buster = require("buster");
 }
 var assert = buster.referee.assert;
 

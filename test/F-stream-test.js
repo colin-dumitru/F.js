@@ -1,11 +1,10 @@
-var Fjs = require("../dist/F.min.js"),
-  F = Fjs.F,
-  P = Fjs.P;
-
 if (typeof require !== 'undefined') {
-  buster = require("buster");
-  Promise = require('es6-promise')
-    .Promise;
+  var Fjs = require("../dist/F.min.js"),
+    F = Fjs.F,
+    P = Fjs.P,
+    buster = require("buster");
+} else {
+  var Fjs = window;
 }
 var assert = buster.referee.assert;
 
@@ -409,7 +408,7 @@ buster.testCase("Stream.multiplexStream", {
     var stream = F.intervalStream("Colin", 10),
       values = [];
 
-    return new Promise(function(resolve) {
+    return new Fjs.Promise(function(resolve) {
       stream.then(function(value) {
         values.push(value);
 
@@ -428,7 +427,7 @@ buster.testCase("Stream.multiplexStream", {
     var stream = F.intervalStream(50, 10),
       values = [];
 
-    return new Promise(function(resolve) {
+    return new Fjs.Promise(function(resolve) {
       F(stream)
         .drop(2)
         .pullStream(stream, P.limit(3))
@@ -445,7 +444,7 @@ buster.testCase("Stream.multiplexStream", {
     var stream = F.timerStream("Colin", 10),
       values = [];
 
-    return new Promise(function(resolve) {
+    return new Fjs.Promise(function(resolve) {
       stream.then(function(value) {
         values.push(value);
       });
@@ -460,7 +459,7 @@ buster.testCase("Stream.multiplexStream", {
     var stream = F.timerStream("Colin", 5000),
       values = [];
 
-    return new Promise(function(resolve) {
+    return new Fjs.Promise(function(resolve) {
       stream.then(function(value) {
         values.push(value);
       });
@@ -477,7 +476,7 @@ buster.testCase("Stream.multiplexStream", {
     var stream = F.timerStream(50, 10),
       values = [];
 
-    return new Promise(function(resolve) {
+    return new Fjs.Promise(function(resolve) {
       F(stream)
         .drop(1)
         .pullStream(stream)

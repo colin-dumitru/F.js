@@ -4,7 +4,7 @@ config["F tests"] = {
   rootPath: "../",
   environment: "browser",
   sources: [
-    "lib/*.js"
+    "dist/*.js"
   ],
   tests: [
     "test/*-test.js"

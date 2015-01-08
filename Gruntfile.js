@@ -5,7 +5,9 @@ module.exports = function(grunt) {
     uglify: {
       f_target: {
         files: {
-          'dist/F.min.js': ['lib/F.js', 'lib/P.js', 'lib/F.stream.js', 'lib/exports.js']
+          'dist/F.min.js': [
+            'lib/promises.js', 'lib/F.js', 'lib/P.js', 'lib/F.stream.js', 'lib/exports.js'
+          ]
         }
       }
     },
