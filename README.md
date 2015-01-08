@@ -22,7 +22,7 @@ bower install f.js --save-dev
 
 And include the main script file into your project:
 ```HTML
-<script src="bower_components/f.js/build/F.min.js"></script>
+<script src="bower_components/f.js/dist/F.min.js"></script>
 ```
 
 **With NPM**
@@ -39,13 +39,13 @@ var Fjs = require("f-js"),
 
 **Manually downloading the zip file**
 ```bash
-curl https://codeload.github.com/colin-dumitru/F.js/zip/v0.1.1 -o F.js.zip
+curl https://codeload.github.com/colin-dumitru/F.js/zip/v0.4.5 -o F.js.zip
 unzip F.js.zip
 ```
 
 And include the main script file into your project:
 ```bash
-<script src="F.js-0.1.1/build/F.min.js"></script>
+<script src="F.js-0.4.5/dist/F.min.js"></script>
 ```
 
 ## Documentation

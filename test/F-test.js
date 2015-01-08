@@ -1,4 +1,4 @@
-var Fjs = require("../build/F.min.js"),
+var Fjs = require("../dist/F.min.js"),
   F = Fjs.F,
   P = Fjs.P;
 

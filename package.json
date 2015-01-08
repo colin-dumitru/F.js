@@ -1,13 +1,8 @@
 {
   "name": "f-js",
-  "version": "0.4.4",
+  "version": "0.4.5",
   "description": "Dead simple library for functional and reactive programming",
-  "main": "build/F.min.js",
-  "directories" : {
-    "build" : "build",
-    "lib" : "lib",
-    "test" : "test"
-  },
+  "main": "dist/F.min.js",
   "repository": {
     "type": "git",
     "url": "git@github.com:colin-dumitru/F.js.git"
