@@ -117,9 +117,9 @@ document.write(result);
 
 > So at it's core, F.js is just another functional library. But the real power comes when you combine reactive programming with streams.
 
-Streams are nothing more than promises which can resolve multiple times. You can either push or consume values from a stream, all done asynchronously. This enabled you to write more modular async code, by passing values through streams and not callbacks.
+Streams are nothing more than promises which can resolve multiple times. You can either push or consume values from a stream, all done asynchronously. This enables you to write more modular async code, by passing values through streams and not callbacks.
 
-This next examples takes a search query from an input element and displays a list of images which match the given query, all done using streams.
+This next example takes a search query from an input element and displays a list of images which match the given query, all done using streams.
 
 > Stream example ([RUN](http://codepen.io/colin-dumitru/pen/XJNNPJ))
 
@@ -159,4 +159,4 @@ F(imageStream)
   .pullStream(imageStream);
 ```
 
-Got you interested? Visit our [wiki pages](https://github.com/colin-dumitru/F.js/wiki) for more examples and information.
+Got you interested? Visit our [wiki pages](https://github.com/colin-dumitru/F.js/wiki) for more examples and info.
