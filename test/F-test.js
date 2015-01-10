@@ -1256,7 +1256,7 @@ buster.testCase("F.min", {
 
   "Single number": function() {
     var result = F([1])
-      .min();
+      .min(function() {});
 
     assert.equals(result, 1);
   },

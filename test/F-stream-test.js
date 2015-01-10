@@ -244,6 +244,25 @@ buster.testCase("F.eventStream", {
     return promise;
   },
 
+  "With keydown events and takeWhile": function() {
+    var mock = mockElement();
+
+    var promise = F(F.eventStream(mock, "keydown"))
+      .map(function(obj) {
+        return obj.keycode;
+      })
+      .takeWhile(P.alwaysFalse)
+      .pullStream(F.lastStream)
+      .then(function(values) {
+        equals(values, [])
+      });
+
+    mock.trigger("keydown", {
+      keycode: 22
+    });
+    return promise;
+  },
+
   "Handlers are removed after the stream is stopped": function() {
     var mock = mockElement();
 

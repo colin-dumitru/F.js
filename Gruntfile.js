@@ -6,7 +6,7 @@ module.exports = function(grunt) {
       f_target: {
         files: {
           'dist/F.min.js': [
-            'lib/promises.js', 'lib/F.js', 'lib/P.js', 'lib/F.stream.js', 'lib/exports.js'
+            'lib/promises.js', 'lib/P.js', 'lib/F.js', 'lib/F.stream.js', 'lib/exports.js'
           ]
         }
       }
@@ -40,6 +40,22 @@ module.exports = function(grunt) {
       }
     },
 
+    release: {
+      options: {
+        bump: true,
+        file: 'package.json',
+        changelog: 'CHANGELOG.md',
+        changelogText: '### <%= version %>\n',
+        add: true,
+        commit: true,
+        tag: true,
+        push: true,
+        pushTags: true,
+        npm: true,
+        npmtag: false
+      }
+    },
+
     'saucelabs-custom': {
       all: {
         options: {
@@ -67,10 +83,12 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-contrib-jshint');
   grunt.loadNpmTasks('grunt-shell');
   grunt.loadNpmTasks('grunt-saucelabs');
+  grunt.loadNpmTasks('grunt-release');
 
   // Tasks
   grunt.registerTask('test', ['buster', 'saucelabs-custom']);
   grunt.registerTask('default', ['jshint', 'uglify', 'test']);
+  grunt.registerTask('dev', ['jshint', 'uglify', 'buster']);
   grunt.registerTask('hookmeup', ['clean:hooks', 'shell:hooks']);
 
 };
