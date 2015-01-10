@@ -13,5 +13,5 @@ config["F tests"] = {
     "test/F-stream-test.js",
     "test/P-test.js"
   ],
-  extensions: [require('buster-reporter-sauce')]
+  extensions: [require("./reporter.js")]
 }

@@ -18,7 +18,6 @@
   },
   "devDependencies": {
     "buster": "^0.7.18",
-    "buster-reporter-sauce": "^0.1.3",
     "grunt": "^0.4.5",
     "grunt-buster": "^0.3.2",
     "grunt-cli": "^0.1.13",

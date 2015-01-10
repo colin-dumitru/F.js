@@ -47,8 +47,10 @@ module.exports = function(grunt) {
           testname: 'F.js',
           build: process.env.TRAVIS_JOB_ID,
           browsers: [
-            ["XP", "firefox", 28],
-            ["XP", "chrome", 31]
+            ["XP", "firefox", 21],
+            ["XP", "chrome", 31],
+            ["Windows 7", "internet explorer", 9],
+            ["Windows 7", "internet explorer", 10]
           ],
           sauceConfig: {
             'record-video': false,
