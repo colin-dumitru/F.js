@@ -1,6 +1,6 @@
 {
   "name": "f-js",
-  "version": "0.4.9",
+  "version": "0.4.10",
   "description": "Dead simple library for functional and reactive programming",
   "main": "dist/F.min.js",
   "repository": {
@@ -24,6 +24,7 @@
     "grunt-contrib-clean": "^0.6.0",
     "grunt-contrib-jshint": "^0.10.0",
     "grunt-contrib-uglify": "^0.7.0",
+    "grunt-release": "^0.9.0",
     "grunt-saucelabs": "^8.4.1",
     "grunt-shell": "^1.1.1"
   }
