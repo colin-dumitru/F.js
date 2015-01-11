@@ -306,7 +306,8 @@ buster.testCase("Iterable.zip", {
 
   "With streams": function() {
     var s1 = F.stream(),
-      s2 = F.stream();
+      s2 = F.stream(),
+      mplex = F.mplex(s1, s2);
 
     var promise = F(s1)
       .filter(function(x) {
@@ -318,7 +319,7 @@ buster.testCase("Iterable.zip", {
           return x % 2 == 1;
         })
       )
-      .pullStream(F.mplex(s1, s2))
+      .pullStream(mplex)
       .then(function(values) {
         equals(values, [
           [2, 1],
@@ -1085,7 +1086,7 @@ buster.testCase("F.unique", {
 
       result = F(stream)
       .unique()
-      .pullStream(stream)
+      .pullStream()
       .then(function(values) {
         equals(values, [1, 2, 3, 4, 5]);
       });

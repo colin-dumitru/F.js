@@ -98,6 +98,38 @@ buster.testCase("F.stream", {
 
     assert(doneCalled);
   },
+
+  "Pull stream with stream": function() {
+    var stream = F.stream();
+
+    F([1, 2, 3, 4, 5])
+      .map(function(x) {
+        return x * 2;
+      })
+      .pullStream(stream)
+      .then(function(values) {
+        equals(values, [2, 4, 6]);
+      });
+
+    stream.pushAll(["Colin", "Dave", "Johnny"]);
+    stream.stop();
+  },
+
+
+  "Pull stream with stream and predicate": function() {
+    var stream = F.stream();
+
+    F([1, 2, 3, 4, 5])
+      .map(function(x) {
+        return x * 2;
+      })
+      .pullStream(stream, P.limit(3))
+      .then(function(values) {
+        equals(values, [2, 4, 6]);
+      });
+
+    stream.pushAll(["Colin", "Dave", "Johnny"]);
+  }
 });
 
 buster.testCase("Iterable.pullStream", {
@@ -105,7 +137,7 @@ buster.testCase("Iterable.pullStream", {
     var stream = F.stream();
 
     var promise = F(stream)
-      .pullStream(stream, P.limit(2))
+      .pullStream(P.limit(2))
       .then(function(values) {
         equals(values, [1, 2])
       });
@@ -120,7 +152,7 @@ buster.testCase("Iterable.pullStream", {
     var stream = F.stream();
 
     var promise = F(stream)
-      .pullStream(stream)
+      .pullStream()
       .then(function(values) {
         equals(values, [1, 2, 3])
       });
@@ -138,7 +170,7 @@ buster.testCase("Iterable.pullStream", {
       .map(function(x) {
         return x * 2;
       })
-      .pullStream(stream)
+      .pullStream()
       .then(function(values) {
         equals(values, [2, 4, 6])
       });
@@ -156,7 +188,7 @@ buster.testCase("Iterable.pullStream", {
       .filter(function(x) {
         return x % 2 == 0;
       })
-      .pullStream(stream)
+      .pullStream()
       .then(function(values) {
         equals(values, [2])
       });
@@ -172,7 +204,7 @@ buster.testCase("Iterable.pullStream", {
 
     var promise = F(stream)
       .drop(2)
-      .pullStream(stream)
+      .pullStream()
       .then(function(values) {
         equals(values, [3])
       });
@@ -190,7 +222,7 @@ buster.testCase("Iterable.pullStream", {
       .dropWhile(function(x) {
         return x < 4;
       })
-      .pullStream(stream)
+      .pullStream()
       .then(function(values) {
         equals(values, [4, 5])
       });
@@ -210,7 +242,7 @@ buster.testCase("F.eventStream", {
       .map(function(obj) {
         return obj.keycode;
       })
-      .pullStream(F.lastStream, P.limit(2))
+      .pullStream(P.limit(2))
       .then(function(values) {
         equals(values, [22, 33])
       });
@@ -233,7 +265,7 @@ buster.testCase("F.eventStream", {
         return obj.keycode;
       })
       .take(1)
-      .pullStream(F.lastStream)
+      .pullStream()
       .then(function(values) {
         equals(values, [22])
       });
@@ -252,7 +284,7 @@ buster.testCase("F.eventStream", {
         return obj.keycode;
       })
       .takeWhile(P.alwaysFalse)
-      .pullStream(F.lastStream)
+      .pullStream()
       .then(function(values) {
         equals(values, [])
       });
@@ -270,7 +302,7 @@ buster.testCase("F.eventStream", {
       .map(function(obj) {
         return obj.keycode;
       })
-      .pullStream(F.lastStream, P.limit(2))
+      .pullStream(P.limit(2))
       .then(function(values) {
         equals(values, [22, 33])
       });
@@ -299,7 +331,7 @@ buster.testCase("F.feedStream", {
       .map(function(val) {
         return val * 2;
       })
-      .pullStream(keyStream, P.limit(2))
+      .pullStream(P.limit(2))
       .then(function(values) {
         equals(values, [44, 66]);
       });
@@ -307,7 +339,7 @@ buster.testCase("F.feedStream", {
     F(F.eventStream(mock, "keydown"))
       .property("keycode")
       .feedStream(keyStream)
-      .pullStream(F.lastStream);
+      .pullStream();
 
     mock.trigger("keydown", {
       keycode: 22
@@ -401,7 +433,7 @@ buster.testCase("Stream.multiplexStream", {
         return val * 2;
       })
       .each(values.push.bind(values))
-      .pullStream(multiplex)
+      .pullStream()
       .then(function(values) {
         equals(values, [4, 8]);
       });
@@ -449,7 +481,7 @@ buster.testCase("Stream.multiplexStream", {
     return new Fjs.Promise(function(resolve) {
       F(stream)
         .drop(2)
-        .pullStream(stream, P.limit(3))
+        .pullStream(P.limit(3))
         .then(function(values) {
           equals(values, [50]);
           resolve()
@@ -498,7 +530,7 @@ buster.testCase("Stream.multiplexStream", {
     return new Fjs.Promise(function(resolve) {
       F(stream)
         .drop(1)
-        .pullStream(stream)
+        .pullStream()
         .then(function(values) {
           equals(values, []);
           resolve()
