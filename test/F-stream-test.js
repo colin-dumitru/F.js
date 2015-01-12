@@ -99,10 +99,10 @@ buster.testCase("F.stream", {
     assert(doneCalled);
   },
 
-  "Pull stream with stream": function() {
+  "Pull stream": function() {
     var stream = F.stream();
 
-    F([1, 2, 3, 4, 5])
+    var promise = F([1, 2, 3, 4, 5])
       .map(function(x) {
         return x * 2;
       })
@@ -113,13 +113,15 @@ buster.testCase("F.stream", {
 
     stream.pushAll(["Colin", "Dave", "Johnny"]);
     stream.stop();
+
+    return promise;
   },
 
 
   "Pull stream with stream and predicate": function() {
     var stream = F.stream();
 
-    F([1, 2, 3, 4, 5])
+    var promise = F([1, 2, 3, 4, 5])
       .map(function(x) {
         return x * 2;
       })
@@ -129,6 +131,8 @@ buster.testCase("F.stream", {
       });
 
     stream.pushAll(["Colin", "Dave", "Johnny"]);
+
+    return promise;
   }
 });
 
@@ -535,6 +539,71 @@ buster.testCase("Stream.multiplexStream", {
           equals(values, []);
           resolve()
         });
+    });
+  }
+});
+
+buster.testCase("Stream.throttle", {
+  "setUp": function() {
+    this.timeout = 2000;
+  },
+
+  "Push four values consecutively": function() {
+    var start = Date.now(),
+      stream = F.stream().throttle(1000),
+
+      timesCalled = 0;
+
+    return new Fjs.Promise(function(resolve) {
+      stream.then(function(values) {
+        timesCalled++;
+
+        if (timesCalled == 1) {
+          equals(values, [1]);
+          assert.less(Date.now() - start, 500);
+        } else {
+          equals(values, [2, 3, 4]);
+          assert.greater(Date.now() - start, 500);
+          resolve();
+        }
+      });
+
+      stream.push(1);
+      stream.push(2);
+      stream.push(3);
+      stream.push(4);
+    });
+  },
+
+  "Push values in burst": function() {
+    var start = Date.now(),
+      stream = F.stream().throttle(400),
+
+      timesCalled = 0,
+      index = 0;
+
+    return new Fjs.Promise(function(resolve) {
+      stream.then(function(values) {
+        timesCalled++;
+
+
+        if (timesCalled == 1) {
+          equals(values, [1]);
+        } else if (timesCalled == 2) {
+          equals(values, [2, 3]);
+        } else {
+          equals(values, [4, 5]);
+          resolve();
+        }
+      });
+
+      setInterval(function() {
+        index++;
+
+        if (index < 6) {
+          stream.push(index);
+        }
+      }, 150);
     });
   }
 });
