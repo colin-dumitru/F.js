@@ -608,6 +608,27 @@ buster.testCase("Stream.throttle", {
   }
 });
 
+buster.testCase("Stream.bindPush", {
+  "Basic test": function() {
+    var stream = F.stream(),
+      delegate = stream.bindPush(),
+
+      promise = F(stream).pullStream().then(function(values) {
+        equals([1, 2, 3, 4, 5], values);
+      });
+
+    delegate(1);
+    stream.push(2);
+    delegate(3);
+    stream.push(4);
+    delegate(5);
+
+    stream.stop();
+
+    return promise;
+  }
+});
+
 function mockElement() {
   var listeners = {};
 
