@@ -44,6 +44,7 @@ module.exports = function(grunt) {
       options: {
         bump: true,
         file: 'package.json',
+        additionalFiles: ['bower.json'],
         changelog: 'CHANGELOG.md',
         changelogText: '### <%= version %>\n',
         add: true,
