@@ -41,13 +41,13 @@ var Fjs = require("f-js"),
 
 **Manually downloading the zip file**
 ```bash
-curl "https://codeload.github.com/colin-dumitru/F.js/zip/0.4.11" > F.js.zip
+curl "https://codeload.github.com/colin-dumitru/F.js/zip/0.5.0" > F.js.zip
 unzip F.js.zip
 ```
 
 And include the main script file into your project:
 ```bash
-<script src="F.js-0.4.11/dist/F.min.js"></script>
+<script src="F.js-0.5.0/dist/F.min.js"></script>
 ```
 
 ## Documentation
@@ -136,7 +136,7 @@ F(keyStream)
     return input.val();
   })
   .feedStream(wordStream)
-  .pullStream(keyStream);
+  .pullStream();
 
 F(wordStream)
   .each(text =>
@@ -147,7 +147,7 @@ F(wordStream)
                 jsonpCallback: 'jsonFlickrApi'
             })
           .then(imageStream.push.bind(imageStream)))
-  .pullStream(wordStream);
+  .pullStream();
 
 F(imageStream)
   .each(reset)
@@ -156,7 +156,7 @@ F(imageStream)
        F(images)
         .map(render)
         .foreach(display))
-  .pullStream(imageStream);
+  .pullStream();
 ```
 
 Got you interested? Visit our [wiki pages](https://github.com/colin-dumitru/F.js/wiki) for more examples and info.
