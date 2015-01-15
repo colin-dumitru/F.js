@@ -146,7 +146,7 @@ F(wordStream)
                 jsonp: 'jsonFlickrApi',
                 jsonpCallback: 'jsonFlickrApi'
             })
-          .then(imageStream.push.bind(imageStream)))
+          .then(imageStream.bindPush()))
   .pullStream();
 
 F(imageStream)
