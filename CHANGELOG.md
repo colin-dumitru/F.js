@@ -3,7 +3,7 @@
 * Event streams now detach their handlers when they have no more listeners to prevent memory leaks.
 * Polyfill promises can now be chained through the "then" method.
 
-## 0.5.0 (in development)
+## 0.5.0
 * The `pullStream` no longer requires a stream to pull, and inferes the value initially passed to the `F(...)` method.
 * Added `throttle` method on streams for limiting how often values can be pushed to a stream.
 * Added `bindPush` method on streams.
