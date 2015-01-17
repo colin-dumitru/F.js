@@ -133,6 +133,49 @@ buster.testCase("F.stream", {
     stream.pushAll(["Colin", "Dave", "Johnny"]);
 
     return promise;
+  },
+
+  "Pull stream with multiple chains": function() {
+    var stream = F.stream(),
+      values = [],
+      doneCalled = 0,
+
+      onDone = function() {
+        doneCalled++;
+
+        if (doneCalled == 3) {
+          equals(values, [1, 2, 3, 10, 20, 30, 20, 40, 60]);
+          equals(doneCalled, 3);
+        }
+      };
+
+    var promise = F(stream)
+      .each(function(x) {
+        values.push(x);
+      })
+      .pullStream()
+      .then(onDone);
+
+    var promise = F(stream)
+      .each(function(x) {
+        values.push(x * 2);
+      })
+      .pullStream()
+      .then(onDone);
+
+    var promise = F(stream)
+      .each(function(x) {
+        values.push(x * 3);
+      })
+      .pullStream()
+      .then(onDone);
+
+    stream.push(1);
+    stream.push(10);
+    stream.push(20);
+    stream.stop();
+
+    return promise;
   }
 });
 
@@ -309,6 +352,13 @@ buster.testCase("F.eventStream", {
       .pullStream(P.limit(2))
       .then(function(values) {
         equals(values, [22, 33])
+      })
+      .then(function() {
+        /* The handler is disabled when pushing a new values without any listeners attached */
+        mock.trigger("keydown", {
+          keycode: 33
+        });
+        assert(!mock.listeners["keydown"]);
       });
 
     mock.trigger("keydown", {
@@ -317,8 +367,6 @@ buster.testCase("F.eventStream", {
     mock.trigger("keydown", {
       keycode: 33
     });
-
-    assert(!mock.listeners["keydown"])
 
     return promise;
   }

@@ -1081,8 +1081,7 @@ buster.testCase("F.unique", {
   },
 
   "With stream": function() {
-    var
-      stream = F.stream(),
+    var stream = F.stream(),
 
       result = F(stream)
       .unique()
