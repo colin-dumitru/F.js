@@ -1,3 +1,6 @@
+## 0.5.2
+* Fixed an issue where event streams could not be multiplexed
+
 ## 0.5.1
 * Fixed an issue where stream could not be used by multiple iterable chains.
 * Event streams now detach their handlers when they have no more listeners to prevent memory leaks.

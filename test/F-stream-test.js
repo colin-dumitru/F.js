@@ -304,6 +304,41 @@ buster.testCase("F.eventStream", {
     return promise;
   },
 
+  "Multiplexed keydown events": function() {
+    var mock1 = mockElement(),
+      mock2 = mockElement(),
+
+      stream1 = F.eventStream(mock1, "keydown"),
+      stream2 = F.eventStream(mock2, "keydown");
+
+    var promise = F(F.mplex(stream1, stream2))
+      .map(function(obj) {
+        return obj.keycode;
+      })
+      .pullStream(P.limit(5))
+      .then(function(values) {
+        equals(values, [11, 22, 33, 44, 55])
+      });
+
+    mock1.trigger("keydown", {
+      keycode: 11
+    });
+    mock1.trigger("keydown", {
+      keycode: 22
+    });
+    mock2.trigger("keydown", {
+      keycode: 33
+    });
+    mock2.trigger("keydown", {
+      keycode: 44
+    });
+    mock2.trigger("keydown", {
+      keycode: 55
+    });
+
+    return promise;
+  },
+
   "With keydown events and take": function() {
     var mock = mockElement();
 
